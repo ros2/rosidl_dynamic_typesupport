@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="2">
+  <name>rosidl_dynamic_typesupport</name>
+  <version>0.0.1</version>
+  <description>Evolving message types serialization library in C.</description>
+  <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
+
+  <license>Apache License 2.0</license>
+  <author email="brandon@openrobotics.org">Brandon Ong</author>
+
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
+
+  <build_depend>pkg-config</build_depend>
+  <build_depend>libyaml_vendor</build_depend>
+  <!-- <build_depend>type_description_interfaces</build_depend> -->  <!-- UNCOMMENT WHEN RCL NO LONGER DEPENDS ON ROSIDL_DYNAMIC_TYPESUPPORT -->
+
+  <!-- <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>launch_testing</test_depend>
+  <test_depend>osrf_testing_tools_cpp</test_depend>
+  <test_depend>std_msgs</test_depend>
+  <test_depend>test_msgs</test_depend>
+  <test_depend>example_interfaces</test_depend> -->
+
+  <build_export_depend>pkg-config</build_export_depend>
+  <build_export_depend>libyaml_vendor</build_export_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
