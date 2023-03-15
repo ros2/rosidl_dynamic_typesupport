@@ -22,7 +22,9 @@
 #include <stdint.h>
 #include <wchar.h>
 
+#include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/types.h>
+#include <type_description_interfaces/msg/type_description.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,8 +44,12 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   /// Luckily for us, FastRTPS mimics the spec quite well
 
   /* TODOS??? (though these are just bonuses...)
-   * DynamicType::get_type_descriptor / DynamicType::get_descriptor (and the TypeDescriptor class)
+   *   - DynamicType::get_type_descriptor / DynamicType::get_descriptor (and the TypeDescriptor class)
    *
+   * I'm not sure if these are necessary, given the fact we will have the type description message
+   * to guide the traversal? Also it's ambiguous what type we should be returning...:
+   *   - DynamicType::get_all_members (Returns map of member ID to member)
+   *   - DynamicType::get_all_members_by_name (Returns map of member name to member)
    */
 
   // NOTE(methylDragon): I'm not sure when to return a value vs use an out-param...
@@ -72,7 +78,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_type_builder_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
 
   rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_dynamic_type_builder)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
-  rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_description)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, type_description_t * description);
+  rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_description)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, type_description_interfaces__msg__TypeDescription * description);
   rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_clone)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_impl_t * other);
   void (* dynamic_type_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_impl_t * type);
 
@@ -214,6 +220,21 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   rosidl_dynamic_typesupport_dynamic_data_impl_t * (* dynamic_data_clone)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data);
   void (* dynamic_data_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data);
 
+  // DYNAMIC DATA SERIALIZATION
+  // NOTE(methylDragon): I'm not sure if rcutils_uint8_array_t is the right type to pass...
+  //                     On the other hand it plays well with rmw and stores the buffer, length, and
+  //                     capacity...
+  //
+  //                     I also considered using a void * instead, but I like the idea of forcing
+  //                     serialization support libraries to play with uint8_t *s instead of their
+  //                     own native type.
+  //
+  //                     ... Though I'm betting that any of their types can be accurately
+  //                     represented as such a byte array
+  //
+  // NOTE(methylDragon): rmw_serialized_message_t is a typedef of rcutils_uint8_array_t
+  bool (* dynamic_data_serialize)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, rcutils_uint8_array_t * buffer);
+  bool (* dynamic_data_deserialize)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, rcutils_uint8_array_t * buffer);
 
   // DYNAMIC DATA PRIMITIVE MEMBER GETTERS
   void (* dynamic_data_get_bool_value)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, bool * value, rosidl_dynamic_typesupport_member_id_t id);

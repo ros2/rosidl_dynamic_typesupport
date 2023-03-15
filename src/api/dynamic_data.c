@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <wchar.h>
+#include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_data.h>
 #include <rosidl_dynamic_typesupport/types.h>
 
@@ -143,6 +144,21 @@ rosidl_dynamic_typesupport_dynamic_data_fini(rosidl_dynamic_typesupport_dynamic_
 {
   (dynamic_data->serialization_support->interface->dynamic_data_fini)(dynamic_data->serialization_support->impl, dynamic_data->impl);
   free(dynamic_data->impl);
+}
+
+
+// DYNAMIC DATA SERIALIZATION ======================================================================
+bool
+rosidl_dynamic_typesupport_dynamic_data_serialize(rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rcutils_uint8_array_t * buffer)
+{
+  return (dynamic_data->serialization_support->interface->dynamic_data_serialize)(dynamic_data->serialization_support->impl, dynamic_data->impl, buffer);
+}
+
+
+bool
+rosidl_dynamic_typesupport_dynamic_data_deserialize(rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rcutils_uint8_array_t * buffer)
+{
+  return (dynamic_data->serialization_support->interface->dynamic_data_deserialize)(dynamic_data->serialization_support->impl, dynamic_data->impl, buffer);
 }
 
 
