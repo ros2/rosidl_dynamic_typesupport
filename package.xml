@@ -14,8 +14,7 @@
   <!-- <build_depend>pkg-config</build_depend> -->
   <!-- <build_depend>libyaml_vendor</build_depend> -->
   <depend>rcutils</depend>
-  <depend>type_description_interfaces_static</depend>
-  <depend>type_description_interfaces_utils</depend>
+  <depend>rosidl_runtime_c</depend>
 
   <!-- <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_cmake_pytest</test_depend>

@@ -24,7 +24,7 @@
 
 #include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/types.h>
-#include <type_description_interfaces/msg/type_description.h>
+#include <rosidl_runtime_c/type_description/type_description__struct.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -78,7 +78,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_type_builder_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
 
   rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_dynamic_type_builder)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
-  rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_description)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, type_description_interfaces__msg__TypeDescription * description);
+  rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_description)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_runtime_c__type_description__TypeDescription * description);
   rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_clone)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_impl_t * other);
   void (* dynamic_type_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_impl_t * type);
 

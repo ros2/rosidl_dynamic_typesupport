@@ -75,7 +75,7 @@ rosidl_dynamic_typesupport_dynamic_type_init_from_dynamic_type_builder(rosidl_dy
 
 
 rosidl_dynamic_typesupport_dynamic_type_t *
-rosidl_dynamic_typesupport_dynamic_type_init_from_description(rosidl_dynamic_typesupport_serialization_support_t * serialization_support, type_description_interfaces__msg__TypeDescription * description)
+rosidl_dynamic_typesupport_dynamic_type_init_from_description(rosidl_dynamic_typesupport_serialization_support_t * serialization_support, rosidl_runtime_c__type_description__TypeDescription * description)
 {
   rosidl_dynamic_typesupport_dynamic_type_t * out = calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t));
   out->serialization_support = serialization_support;

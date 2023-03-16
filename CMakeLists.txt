@@ -24,9 +24,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # DEPS =============================================================================================
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
-find_package(type_description_interfaces_static REQUIRED)
-find_package(type_description_interfaces_utils REQUIRED)
 find_package(rcutils REQUIRED)
+find_package(rosidl_runtime_c REQUIRED)
 
 
 # TARGETS ==========================================================================================
@@ -41,9 +40,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC
-  type_description_interfaces_static::type_description_interfaces_static
-  type_description_interfaces_utils::type_description_interfaces_utils
   rcutils::rcutils
+  rosidl_runtime_c::rosidl_runtime_c
 )
 
 
@@ -62,7 +60,6 @@ install(
 ament_export_targets(${PROJECT_NAME}-export HAS_LIBRARY_TARGET)
 ament_export_dependencies(ament_cmake)
 ament_export_dependencies(ament_cmake_ros)
-ament_export_dependencies(type_description_interfaces_static)
-ament_export_dependencies(type_description_interfaces_utils)
+ament_export_dependencies(rosidl_runtime_c)
 
 ament_package()

@@ -17,10 +17,10 @@
 
 #include "rcutils/types/uint8_array.h"
 
-#include <type_description_interfaces/msg/field.h>
-#include <type_description_interfaces/msg/field_type.h>
-#include <type_description_interfaces/msg/individual_type_description.h>
-#include <type_description_interfaces/msg/type_description.h>
+#include <rosidl_runtime_c/type_description/field__struct.h>
+#include <rosidl_runtime_c/type_description/field_type__struct.h>
+#include <rosidl_runtime_c/type_description/individual_type_description__struct.h>
+#include <rosidl_runtime_c/type_description/type_description__struct.h>
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -30,17 +30,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-// =================================================================================================
-// DESCRIPTION STRUCTS
-// =================================================================================================
-
-// NOTE(methylDragon): The description structs are declared here to avoid C linking issues against
-//                     glib
-// typedef struct type_description_field_s type_description_field_t;
-// typedef struct individual_type_description_s  individual_type_description_t;
-// typedef struct type_description_s type_description_t;
 
 
 // =================================================================================================
@@ -229,65 +218,65 @@ rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void)
 
 // SPECIALS ========================================================================================
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NOT_SET \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_NOT_SET  // 0
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_NOT_SET  // 0
 
 // Nested type defined in other .msg/.idl files.
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_NESTED_TYPE  // 1
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_NESTED_TYPE  // 1
 
 // PRIMITIVES ======================================================================================
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT8 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT8  // 2
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT8  // 2
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT8 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT8  // 3
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT8  // 3
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT16 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT16  // 4
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT16  // 4
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT16 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT16  // 5
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT16  // 5
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT32 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT32  // 6
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32  // 6
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT32 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT32  // 7
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT32  // 7
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT64 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT64  // 8
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT64  // 8
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT64 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT64  // 9
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT64  // 9
 
 // NOTE(methylDragon): Unsure how to implement these. Are each pair equivalent?
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT  // 10
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT  // 10
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT32 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT  // 10
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT  // 10
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_DOUBLE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE  // 11
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE  // 11
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT64 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE  // 11
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE  // 11
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_LONG_DOUBLE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE  // 12
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE  // 12
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT128 \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE  // 12
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE  // 12
 
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_CHAR \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_CHAR  // 13
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_CHAR  // 13
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WCHAR \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WCHAR  // 14
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WCHAR  // 14
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOOLEAN \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOOLEAN  // 15
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN  // 15
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BYTE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BYTE  // 16
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BYTE  // 16
 
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_STRING \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_STRING  // 17
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_STRING  // 17
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WSTRING \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WSTRING  // 18
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WSTRING  // 18
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_STRING \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_STRING  // 19
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_STRING  // 19
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_WSTRING \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_WSTRING  // 20
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_WSTRING  // 20
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_STRING \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_STRING  // 21
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_STRING  // 21
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_WSTRING \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_WSTRING  // 22
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_WSTRING  // 22
 
 // SEQUENCES =======================================================================================
 #define ROSIDL_DYNAMIC_TYPESUPPORT_SEQUENCE_TYPE_DELIMITER 48
@@ -296,157 +285,157 @@ rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void)
 #define ROSIDL_DYNAMIC_TYPESUPPORT_BOUNDED_SEQUENCE_OFFSET 144
 
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_NESTED_TYPE_ARRAY  // 49
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_NESTED_TYPE_ARRAY  // 49
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT8_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT8_ARRAY  // 50
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT8_ARRAY  // 50
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT8_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT8_ARRAY  // 51
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT8_ARRAY  // 51
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT16_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT16_ARRAY  // 52
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT16_ARRAY  // 52
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT16_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT16_ARRAY  // 53
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT16_ARRAY  // 53
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT32_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT32_ARRAY  // 54
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32_ARRAY  // 54
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT32_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT32_ARRAY  // 55
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT32_ARRAY  // 55
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT64_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT64_ARRAY  // 56
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT64_ARRAY  // 56
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT64_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT64_ARRAY  // 57
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT64_ARRAY  // 57
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT_ARRAY  // 58
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT_ARRAY  // 58
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT32_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT_ARRAY  // 58
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT_ARRAY  // 58
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_DOUBLE_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE_ARRAY  // 59
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE_ARRAY  // 59
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT64_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE_ARRAY  // 59
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE_ARRAY  // 59
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_LONG_DOUBLE_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE_ARRAY  // 60
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE_ARRAY  // 60
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT128_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE_ARRAY  // 60
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE_ARRAY  // 60
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_CHAR_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_CHAR_ARRAY  // 61
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_CHAR_ARRAY  // 61
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WCHAR_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WCHAR_ARRAY  // 62
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WCHAR_ARRAY  // 62
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOOLEAN_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOOLEAN_ARRAY  // 63
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN_ARRAY  // 63
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BYTE_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BYTE_ARRAY  // 64
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BYTE_ARRAY  // 64
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_STRING_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_STRING_ARRAY  // 65
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_STRING_ARRAY  // 65
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WSTRING_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WSTRING_ARRAY  // 66
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WSTRING_ARRAY  // 66
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_STRING_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_STRING_ARRAY  // 67
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_STRING_ARRAY  // 67
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_WSTRING_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_WSTRING_ARRAY  // 68
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_WSTRING_ARRAY  // 68
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_STRING_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_STRING_ARRAY  // 69
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_STRING_ARRAY  // 69
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_WSTRING_ARRAY \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_WSTRING_ARRAY  // 70
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_WSTRING_ARRAY  // 70
 
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE  // 97
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE  // 97
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT8_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT8_BOUNDED_SEQUENCE  // 98
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT8_BOUNDED_SEQUENCE  // 98
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT8_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT8_BOUNDED_SEQUENCE  // 99
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT8_BOUNDED_SEQUENCE  // 99
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT16_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT16_BOUNDED_SEQUENCE  // 100
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT16_BOUNDED_SEQUENCE  // 100
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT16_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT16_BOUNDED_SEQUENCE  // 101
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT16_BOUNDED_SEQUENCE  // 101
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT32_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT32_BOUNDED_SEQUENCE  // 102
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32_BOUNDED_SEQUENCE  // 102
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT32_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT32_BOUNDED_SEQUENCE  // 103
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT32_BOUNDED_SEQUENCE  // 103
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT64_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT64_BOUNDED_SEQUENCE  // 104
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT64_BOUNDED_SEQUENCE  // 104
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT64_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT64_BOUNDED_SEQUENCE  // 105
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT64_BOUNDED_SEQUENCE  // 105
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT_BOUNDED_SEQUENCE  // 106
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT_BOUNDED_SEQUENCE  // 106
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT32_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT_BOUNDED_SEQUENCE  // 106
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT_BOUNDED_SEQUENCE  // 106
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_DOUBLE_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE_BOUNDED_SEQUENCE  // 107
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE_BOUNDED_SEQUENCE  // 107
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT64_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE_BOUNDED_SEQUENCE  // 107
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE_BOUNDED_SEQUENCE  // 107
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_LONG_DOUBLE_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE_BOUNDED_SEQUENCE  // 108
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE_BOUNDED_SEQUENCE  // 108
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT128_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE_BOUNDED_SEQUENCE  // 108
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE_BOUNDED_SEQUENCE  // 108
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_CHAR_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_CHAR_BOUNDED_SEQUENCE  // 109
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_CHAR_BOUNDED_SEQUENCE  // 109
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WCHAR_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WCHAR_BOUNDED_SEQUENCE  // 110
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WCHAR_BOUNDED_SEQUENCE  // 110
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOOLEAN_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOOLEAN_BOUNDED_SEQUENCE  // 111
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN_BOUNDED_SEQUENCE  // 111
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BYTE_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BYTE_BOUNDED_SEQUENCE  // 112
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BYTE_BOUNDED_SEQUENCE  // 112
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_STRING_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_STRING_BOUNDED_SEQUENCE  // 113
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_STRING_BOUNDED_SEQUENCE  // 113
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WSTRING_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WSTRING_BOUNDED_SEQUENCE  // 114
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WSTRING_BOUNDED_SEQUENCE  // 114
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_STRING_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_STRING_BOUNDED_SEQUENCE  // 115
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_STRING_BOUNDED_SEQUENCE  // 115
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_WSTRING_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_WSTRING_BOUNDED_SEQUENCE  // 116
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_WSTRING_BOUNDED_SEQUENCE  // 116
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_STRING_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_STRING_BOUNDED_SEQUENCE  // 117
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_STRING_BOUNDED_SEQUENCE  // 117
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_WSTRING_BOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_WSTRING_BOUNDED_SEQUENCE  // 118
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_WSTRING_BOUNDED_SEQUENCE  // 118
 
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE  // 145
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE  // 145
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT8_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT8_UNBOUNDED_SEQUENCE  // 146
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT8_UNBOUNDED_SEQUENCE  // 146
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT8_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT8_UNBOUNDED_SEQUENCE  // 147
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT8_UNBOUNDED_SEQUENCE  // 147
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT16_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT16_UNBOUNDED_SEQUENCE  // 148
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT16_UNBOUNDED_SEQUENCE  // 148
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT16_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT16_UNBOUNDED_SEQUENCE  // 149
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT16_UNBOUNDED_SEQUENCE  // 149
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT32_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT32_UNBOUNDED_SEQUENCE  // 150
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT32_UNBOUNDED_SEQUENCE  // 150
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT32_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT32_UNBOUNDED_SEQUENCE  // 151
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT32_UNBOUNDED_SEQUENCE  // 151
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_INT64_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_INT64_UNBOUNDED_SEQUENCE  // 152
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_INT64_UNBOUNDED_SEQUENCE  // 152
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_UINT64_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_UINT64_UNBOUNDED_SEQUENCE  // 153
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_UINT64_UNBOUNDED_SEQUENCE  // 153
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT_UNBOUNDED_SEQUENCE  // 154
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT_UNBOUNDED_SEQUENCE  // 154
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT32_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FLOAT_UNBOUNDED_SEQUENCE  // 154
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT_UNBOUNDED_SEQUENCE  // 154
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_DOUBLE_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE_UNBOUNDED_SEQUENCE  // 155
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE_UNBOUNDED_SEQUENCE  // 155
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT64_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_DOUBLE_UNBOUNDED_SEQUENCE  // 155
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE_UNBOUNDED_SEQUENCE  // 155
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_LONG_DOUBLE_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE_UNBOUNDED_SEQUENCE  // 156
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE_UNBOUNDED_SEQUENCE  // 156
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FLOAT128_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_LONG_DOUBLE_UNBOUNDED_SEQUENCE  // 156
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_LONG_DOUBLE_UNBOUNDED_SEQUENCE  // 156
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_CHAR_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_CHAR_UNBOUNDED_SEQUENCE  // 157
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_CHAR_UNBOUNDED_SEQUENCE  // 157
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WCHAR_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WCHAR_UNBOUNDED_SEQUENCE  // 158
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WCHAR_UNBOUNDED_SEQUENCE  // 158
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOOLEAN_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOOLEAN_UNBOUNDED_SEQUENCE  // 159
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOOLEAN_UNBOUNDED_SEQUENCE  // 159
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BYTE_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BYTE_UNBOUNDED_SEQUENCE  // 160
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BYTE_UNBOUNDED_SEQUENCE  // 160
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_STRING_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_STRING_UNBOUNDED_SEQUENCE  // 161
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_STRING_UNBOUNDED_SEQUENCE  // 161
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_WSTRING_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_WSTRING_UNBOUNDED_SEQUENCE  // 162
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_WSTRING_UNBOUNDED_SEQUENCE  // 162
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_STRING_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_STRING_UNBOUNDED_SEQUENCE  // 163
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_STRING_UNBOUNDED_SEQUENCE  // 163
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_WSTRING_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_FIXED_WSTRING_UNBOUNDED_SEQUENCE  // 164
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_WSTRING_UNBOUNDED_SEQUENCE  // 164
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_STRING_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_STRING_UNBOUNDED_SEQUENCE  // 165
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_STRING_UNBOUNDED_SEQUENCE  // 165
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_WSTRING_UNBOUNDED_SEQUENCE \
-  type_description_interfaces__msg__FieldType__FIELD_TYPE_BOUNDED_WSTRING_UNBOUNDED_SEQUENCE  // 166
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_WSTRING_UNBOUNDED_SEQUENCE  // 166
 
 
 #ifdef __cplusplus
