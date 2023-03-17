@@ -3,7 +3,7 @@
 <package format="2">
   <name>rosidl_dynamic_typesupport</name>
   <version>0.0.1</version>
-  <description>Evolving message types serialization library in C.</description>
+  <description>Unified serialization support interface for dynamic typesupport in C.</description>
   <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
 
   <license>Apache License 2.0</license>
@@ -11,23 +11,8 @@
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
-  <!-- <build_depend>pkg-config</build_depend> -->
-  <!-- <build_depend>libyaml_vendor</build_depend> -->
   <depend>rcutils</depend>
   <depend>rosidl_runtime_c</depend>
-
-  <!-- <test_depend>ament_cmake_gtest</test_depend>
-  <test_depend>ament_cmake_pytest</test_depend>
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
-  <test_depend>launch_testing</test_depend>
-  <test_depend>osrf_testing_tools_cpp</test_depend>
-  <test_depend>std_msgs</test_depend>
-  <test_depend>test_msgs</test_depend>
-  <test_depend>example_interfaces</test_depend> -->
-
-  <!-- <build_export_depend>pkg-config</build_export_depend> -->
-  <!-- <build_export_depend>libyaml_vendor</build_export_depend> -->
 
   <export>
     <build_type>ament_cmake</build_type>
