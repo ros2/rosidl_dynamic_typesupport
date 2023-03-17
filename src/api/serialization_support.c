@@ -46,6 +46,9 @@ rosidl_dynamic_typesupport_serialization_support_init(
 void
 rosidl_dynamic_typesupport_serialization_support_fini(rosidl_dynamic_typesupport_serialization_support_t * serialization_support)
 {
+  if (!serialization_support) {
+    return;
+  }
   (serialization_support->interface->serialization_support_impl_handle_fini)(serialization_support->impl);
   free(serialization_support->interface);
   free(serialization_support->impl);

@@ -59,6 +59,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_clone(const rosidl_dynamic_types
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_fini(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder)
 {
+  if (!dynamic_type_builder) {
+    return;
+  }
   (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_fini)(dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl);
   free(dynamic_type_builder);
 }
@@ -75,7 +78,7 @@ rosidl_dynamic_typesupport_dynamic_type_init_from_dynamic_type_builder(rosidl_dy
 
 
 rosidl_dynamic_typesupport_dynamic_type_t *
-rosidl_dynamic_typesupport_dynamic_type_init_from_description(rosidl_dynamic_typesupport_serialization_support_t * serialization_support, rosidl_runtime_c__type_description__TypeDescription * description)
+rosidl_dynamic_typesupport_dynamic_type_init_from_description(rosidl_dynamic_typesupport_serialization_support_t * serialization_support, const rosidl_runtime_c__type_description__TypeDescription * description)
 {
   rosidl_dynamic_typesupport_dynamic_type_t * out = calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t));
   out->serialization_support = serialization_support;
@@ -97,6 +100,9 @@ rosidl_dynamic_typesupport_dynamic_type_clone(const rosidl_dynamic_typesupport_d
 void
 rosidl_dynamic_typesupport_dynamic_type_fini(rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type)
 {
+  if (!dynamic_type) {
+    return;
+  }
   (dynamic_type->serialization_support->interface->dynamic_type_fini)(dynamic_type->serialization_support->impl, dynamic_type->impl);
   free(dynamic_type);
 }

@@ -142,6 +142,9 @@ rosidl_dynamic_typesupport_dynamic_data_clone(const rosidl_dynamic_typesupport_d
 void
 rosidl_dynamic_typesupport_dynamic_data_fini(rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
+  if (!dynamic_data) {
+    return;
+  }
   (dynamic_data->serialization_support->interface->dynamic_data_fini)(dynamic_data->serialization_support->impl, dynamic_data->impl);
   free(dynamic_data->impl);
 }

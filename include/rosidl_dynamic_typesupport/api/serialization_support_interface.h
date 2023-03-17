@@ -78,7 +78,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_type_builder_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
 
   rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_dynamic_type_builder)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
-  rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_description)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_runtime_c__type_description__TypeDescription * description);
+  rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_init_from_description)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_runtime_c__type_description__TypeDescription * description);
   rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_clone)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_impl_t * other);
   void (* dynamic_type_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_impl_t * type);
 
