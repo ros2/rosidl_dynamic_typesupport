@@ -62,7 +62,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_item_count(const rosidl_dynamic_type
 
 
 rosidl_dynamic_typesupport_member_id_t
-rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char * name, size_t name_length)
+rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char * name, size_t name_length)
 {
   return (dynamic_data->serialization_support->interface->dynamic_data_get_member_id_by_name)(dynamic_data->serialization_support->impl, dynamic_data->impl, name, name_length);
 }
@@ -102,9 +102,16 @@ rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(rosidl_dynamic_types
 
 
 void
-rosidl_dynamic_typesupport_dynamic_data_print(rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
+rosidl_dynamic_typesupport_dynamic_data_print(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
   (dynamic_data->serialization_support->interface->dynamic_data_print)(dynamic_data->serialization_support->impl, dynamic_data->impl);
+}
+
+
+const char *
+rosidl_dynamic_typesupport_dynamic_data_get_name(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t * name_length)
+{
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_name)(dynamic_data->serialization_support->impl, dynamic_data->impl, name_length);
 }
 
 

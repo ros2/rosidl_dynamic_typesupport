@@ -49,7 +49,7 @@ size_t
 rosidl_dynamic_typesupport_dynamic_data_get_item_count(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
 
 rosidl_dynamic_typesupport_member_id_t
-rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char * name, size_t name_length);
+rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char * name, size_t name_length);
 
 rosidl_dynamic_typesupport_member_id_t
 rosidl_dynamic_typesupport_dynamic_data_get_member_id_at_index(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t index);
@@ -65,7 +65,10 @@ void
 rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rosidl_dynamic_typesupport_dynamic_data_t * inner_dynamic_data);
 
 void
-rosidl_dynamic_typesupport_dynamic_data_print(rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
+rosidl_dynamic_typesupport_dynamic_data_print(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
+
+const char *
+rosidl_dynamic_typesupport_dynamic_data_get_name(const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t * name_length);
 
 // DYNAMIC DATA CONSTRUCTION =======================================================================
 rosidl_dynamic_typesupport_dynamic_data_t *

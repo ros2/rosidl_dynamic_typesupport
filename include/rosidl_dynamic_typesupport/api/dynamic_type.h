@@ -63,11 +63,11 @@ rosidl_dynamic_typesupport_dynamic_type_clone(const rosidl_dynamic_typesupport_d
 void
 rosidl_dynamic_typesupport_dynamic_type_fini(rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);
 
-void
-rosidl_dynamic_typesupport_dynamic_type_set_name(rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type, const char * name, size_t name_length);
+const char *
+rosidl_dynamic_typesupport_dynamic_type_get_name(const rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type, size_t * name_length);
 
-char *
-rosidl_dynamic_typesupport_dynamic_type_builder_get_name(const rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);
+const char *
+rosidl_dynamic_typesupport_dynamic_type_builder_get_name(const rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, size_t * name_length);
 
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_set_name(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, const char * name, size_t name_length);

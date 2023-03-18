@@ -75,6 +75,11 @@ rosidl_dynamic_typesupport_dynamic_type_builder_clone(const rosidl_dynamic_types
 rosidl_dynamic_typesupport_dynamic_type_builder_t *
 rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(rosidl_dynamic_typesupport_serialization_support_t * serialization_support, const rosidl_runtime_c__type_description__TypeDescription * description)
 {
+  if (!rosidl_runtime_c_type_description_utils_type_description_is_valid(description)) {
+    RCUTILS_LOG_ERROR("Type description is not valid!");
+    return NULL;
+  }
+
   rosidl_dynamic_typesupport_dynamic_type_builder_t * out;
 
   // Short-circuit if the serialization support library has its own implementation
@@ -528,17 +533,17 @@ rosidl_dynamic_typesupport_dynamic_type_fini(rosidl_dynamic_typesupport_dynamic_
 }
 
 
-char *
-rosidl_dynamic_typesupport_dynamic_type_get_name(const rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type)
+const char *
+rosidl_dynamic_typesupport_dynamic_type_get_name(const rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type, size_t * name_length)
 {
-  return (dynamic_type->serialization_support->interface->dynamic_type_get_name)(dynamic_type->serialization_support->impl, dynamic_type->impl);
+  return (dynamic_type->serialization_support->interface->dynamic_type_get_name)(dynamic_type->serialization_support->impl, dynamic_type->impl, name_length);
 }
 
 
-char *
-rosidl_dynamic_typesupport_dynamic_type_builder_get_name(const rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder)
+const char *
+rosidl_dynamic_typesupport_dynamic_type_builder_get_name(const rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, size_t * name_length)
 {
-  return (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_get_name)(dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl);
+  return (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_get_name)(dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, name_length);
 }
 
 

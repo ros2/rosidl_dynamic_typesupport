@@ -22,7 +22,7 @@
 
 // CORE ============================================================================================
 const char *
-rosidl_dynamic_typesupport_serialization_support_get_library_identifier(rosidl_dynamic_typesupport_serialization_support_t * serialization_support)
+rosidl_dynamic_typesupport_serialization_support_get_library_identifier(const rosidl_dynamic_typesupport_serialization_support_t * serialization_support)
 {
   return serialization_support->library_identifier;
 }

@@ -82,8 +82,8 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   rosidl_dynamic_typesupport_dynamic_type_impl_t * (* dynamic_type_clone)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_impl_t * other);
   void (* dynamic_type_fini)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_impl_t * type);
 
-  char * (* dynamic_type_get_name)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_impl_t * dynamic_type);
-  char * (* dynamic_type_builder_get_name)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
+  const char * (* dynamic_type_get_name)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_impl_t * dynamic_type, size_t * name_length);
+  const char * (* dynamic_type_builder_get_name)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder, size_t * name_length);
   void (* dynamic_type_builder_set_name)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder, const char * name, size_t name_length);
 
 
@@ -209,9 +209,9 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   rosidl_dynamic_typesupport_dynamic_data_impl_t * (* dynamic_data_loan_value)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, rosidl_dynamic_typesupport_member_id_t id);
   void (* dynamic_data_return_loaned_value)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, const rosidl_dynamic_typesupport_dynamic_data_impl_t * inner_data);
 
-  void (* dynamic_data_print)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data);
+  void (* dynamic_data_print)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data);
 
-  char * (* dynamic_data_get_name)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data);
+  const char * (* dynamic_data_get_name)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, size_t * name_length);
 
 
   // DYNAMIC DATA CONSTRUCTION
