@@ -32,7 +32,8 @@ extern "C" {
 
 // CORE ============================================================================================
 const char *
-rosidl_dynamic_typesupport_serialization_support_get_library_identifier(const rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
+rosidl_dynamic_typesupport_serialization_support_get_library_identifier(
+  const rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 
 rosidl_dynamic_typesupport_serialization_support_t *
 rosidl_dynamic_typesupport_serialization_support_init(
@@ -40,7 +41,8 @@ rosidl_dynamic_typesupport_serialization_support_init(
   rosidl_dynamic_typesupport_serialization_support_interface_t * interface);
 
 void
-rosidl_dynamic_typesupport_serialization_support_fini(rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
+rosidl_dynamic_typesupport_serialization_support_fini(
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 
 
 #ifdef __cplusplus

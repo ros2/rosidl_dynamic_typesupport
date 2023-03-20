@@ -90,7 +90,7 @@ inline
 rosidl_dynamic_typesupport_serialization_support_t
 rosidl_dynamic_typesupport_get_zero_initialized_serialization_support(void)
 {
-  return (rosidl_dynamic_typesupport_serialization_support_t){0, 0, 0};
+  return (rosidl_dynamic_typesupport_serialization_support_t) {0, 0, 0};
 }
 
 
@@ -106,7 +106,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_builder_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_builder_t){0, 0};
+  return (rosidl_dynamic_typesupport_dynamic_type_builder_t) {0, 0};
 }
 
 
@@ -122,7 +122,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_t){0, 0};
+  return (rosidl_dynamic_typesupport_dynamic_type_t) {0, 0};
 }
 
 
@@ -138,7 +138,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_data_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_data_t){0, 0};
+  return (rosidl_dynamic_typesupport_dynamic_data_t) {0, 0};
 }
 
 // Impl Structs ====================================================================================
@@ -157,7 +157,7 @@ inline
 rosidl_dynamic_typesupport_serialization_support_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_serialization_support_impl(void)
 {
-  return (rosidl_dynamic_typesupport_serialization_support_impl_t){0, 0};
+  return (rosidl_dynamic_typesupport_serialization_support_impl_t) {0, 0};
 }
 
 // Dynamic Type Builder Impl
@@ -170,7 +170,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_builder_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder_impl(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_builder_impl_t){0};
+  return (rosidl_dynamic_typesupport_dynamic_type_builder_impl_t) {0};
 }
 
 
@@ -184,7 +184,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_impl(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_impl_t){0};
+  return (rosidl_dynamic_typesupport_dynamic_type_impl_t) {0};
 }
 
 
@@ -198,7 +198,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_data_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_data_impl_t){0};
+  return (rosidl_dynamic_typesupport_dynamic_data_impl_t) {0};
 }
 
 
