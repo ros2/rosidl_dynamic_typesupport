@@ -316,9 +316,8 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_data_get_complex_value)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, rosidl_dynamic_typesupport_member_id_t id, rosidl_dynamic_typesupport_dynamic_data_impl_t ** value);  // Copies
   void (* dynamic_data_set_complex_value)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, rosidl_dynamic_typesupport_member_id_t id, rosidl_dynamic_typesupport_dynamic_data_impl_t * value);
 
-  void (* dynamic_data_insert_const_complex_value)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, const rosidl_dynamic_typesupport_dynamic_data_impl_t * value, rosidl_dynamic_typesupport_member_id_t * out_id);
+  void (* dynamic_data_insert_complex_value_copy)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, const rosidl_dynamic_typesupport_dynamic_data_impl_t * value, rosidl_dynamic_typesupport_member_id_t * out_id);
   void (* dynamic_data_insert_complex_value)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, rosidl_dynamic_typesupport_dynamic_data_impl_t * value, rosidl_dynamic_typesupport_member_id_t * out_id);
-  void (* dynamic_data_insert_complex_value_ptr)(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data, rosidl_dynamic_typesupport_dynamic_data_impl_t * value, rosidl_dynamic_typesupport_member_id_t * out_id);
 };
 
 

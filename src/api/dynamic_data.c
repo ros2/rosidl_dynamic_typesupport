@@ -622,10 +622,10 @@ rosidl_dynamic_typesupport_dynamic_data_set_complex_value(rosidl_dynamic_typesup
 
 
 void
-rosidl_dynamic_typesupport_dynamic_data_insert_const_complex_value(
+rosidl_dynamic_typesupport_dynamic_data_insert_complex_value_copy(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const rosidl_dynamic_typesupport_dynamic_data_t * value, rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_const_complex_value)(dynamic_data->serialization_support->impl, dynamic_data->impl, value->impl, out_id);
+  (dynamic_data->serialization_support->interface->dynamic_data_insert_complex_value_copy)(dynamic_data->serialization_support->impl, dynamic_data->impl, value->impl, out_id);
 }
 
 
@@ -633,12 +633,4 @@ void
 rosidl_dynamic_typesupport_dynamic_data_insert_complex_value(rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rosidl_dynamic_typesupport_dynamic_data_t * value, rosidl_dynamic_typesupport_member_id_t * out_id)
 {
   (dynamic_data->serialization_support->interface->dynamic_data_insert_complex_value)(dynamic_data->serialization_support->impl, dynamic_data->impl, value->impl, out_id);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_data_insert_complex_value_ptr(
-  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rosidl_dynamic_typesupport_dynamic_data_t * value, rosidl_dynamic_typesupport_member_id_t * out_id)
-{
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_complex_value_ptr)(dynamic_data->serialization_support->impl, dynamic_data->impl, value->impl, out_id);
 }
