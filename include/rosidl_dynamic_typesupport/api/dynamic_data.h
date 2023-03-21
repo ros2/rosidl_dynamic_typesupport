@@ -18,7 +18,7 @@
 #ifndef ROSIDL_DYNAMIC_TYPESUPPORT__API__DYNAMIC_DATA_H_
 #define ROSIDL_DYNAMIC_TYPESUPPORT__API__DYNAMIC_DATA_H_
 
-#include <wchar.h>
+#include <uchar.h>
 
 #include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
@@ -67,7 +67,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_member_id_at_index(
 // You must use this for arrays
 rosidl_dynamic_typesupport_member_id_t
 rosidl_dynamic_typesupport_dynamic_data_get_array_index(
-  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t index);
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t index);
 
 rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_loan_value(
@@ -122,7 +122,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_bool_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_get_byte_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, uint8_t * value);
+  rosidl_dynamic_typesupport_member_id_t id, unsigned char * value);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_get_char_value(
@@ -132,7 +132,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_char_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_get_wchar_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, wchar_t * value);
+  rosidl_dynamic_typesupport_member_id_t id, char16_t * value);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_get_float32_value(
@@ -197,7 +197,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_string_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_get_wstring_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, wchar_t ** value, size_t * value_length);
+  rosidl_dynamic_typesupport_member_id_t id, char16_t ** value, size_t * value_length);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_get_bounded_string_value(
@@ -208,7 +208,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_bounded_string_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_get_bounded_wstring_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, wchar_t ** value, size_t * value_length,
+  rosidl_dynamic_typesupport_member_id_t id, char16_t ** value, size_t * value_length,
   size_t wstring_bound);
 
 // DYNAMIC DATA PRIMITIVE MEMBER SETTERS ===========================================================
@@ -220,7 +220,7 @@ rosidl_dynamic_typesupport_dynamic_data_set_bool_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_set_byte_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, uint8_t value);
+  rosidl_dynamic_typesupport_member_id_t id, unsigned char value);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_set_char_value(
@@ -230,7 +230,7 @@ rosidl_dynamic_typesupport_dynamic_data_set_char_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_set_wchar_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, wchar_t value);
+  rosidl_dynamic_typesupport_member_id_t id, char16_t value);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_set_float32_value(
@@ -295,7 +295,7 @@ rosidl_dynamic_typesupport_dynamic_data_set_string_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_set_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, const wchar_t * value, size_t value_length);
+  rosidl_dynamic_typesupport_member_id_t id, const char16_t * value, size_t value_length);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_set_bounded_string_value(
@@ -306,7 +306,7 @@ rosidl_dynamic_typesupport_dynamic_data_set_bounded_string_value(
 void
 rosidl_dynamic_typesupport_dynamic_data_set_bounded_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id, const wchar_t * value, size_t value_length,
+  rosidl_dynamic_typesupport_member_id_t id, const char16_t * value, size_t value_length,
   size_t wstring_bound);
 
 // DYNAMIC DATA SEQUENCES ==========================================================================
@@ -341,7 +341,7 @@ rosidl_dynamic_typesupport_dynamic_data_insert_char_value(
 
 void
 rosidl_dynamic_typesupport_dynamic_data_insert_wchar_value(
-  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, wchar_t value,
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, char16_t value,
   rosidl_dynamic_typesupport_member_id_t * out_id);
 
 void
@@ -406,7 +406,7 @@ rosidl_dynamic_typesupport_dynamic_data_insert_string_value(
 
 void
 rosidl_dynamic_typesupport_dynamic_data_insert_wstring_value(
-  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const wchar_t * value,
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char16_t * value,
   size_t value_length, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 void
@@ -416,7 +416,7 @@ rosidl_dynamic_typesupport_dynamic_data_insert_bounded_string_value(
 
 void
 rosidl_dynamic_typesupport_dynamic_data_insert_bounded_wstring_value(
-  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const wchar_t * value,
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char16_t * value,
   size_t value_length, size_t wstring_bound, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 // DYNAMIC DATA NESTED =============================================================================

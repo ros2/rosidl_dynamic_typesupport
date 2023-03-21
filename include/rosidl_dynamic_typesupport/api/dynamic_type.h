@@ -33,8 +33,8 @@ extern "C" {
 // DYNAMIC TYPE UTILS ==============================================================================
 bool
 rosidl_dynamic_typesupport_dynamic_type_equals(
-  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type,
-  rosidl_dynamic_typesupport_dynamic_type_t * other);
+  const rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type,
+  const rosidl_dynamic_typesupport_dynamic_type_t * other);
 
 size_t
 rosidl_dynamic_typesupport_dynamic_type_get_member_count(

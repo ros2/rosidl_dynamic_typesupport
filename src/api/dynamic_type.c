@@ -38,8 +38,8 @@
 // DYNAMIC TYPE UTILS ==============================================================================
 bool
 rosidl_dynamic_typesupport_dynamic_type_equals(
-  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type,
-  rosidl_dynamic_typesupport_dynamic_type_t * other)
+  const rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type,
+  const rosidl_dynamic_typesupport_dynamic_type_t * other)
 {
   assert(
     dynamic_type->serialization_support->library_identifier ==
