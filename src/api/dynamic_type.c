@@ -506,7 +506,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_fini(
   }
   (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_fini)(
     dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl);
-  free(dynamic_type_builder);
+  free(dynamic_type_builder->impl);
 }
 
 
@@ -575,7 +575,7 @@ rosidl_dynamic_typesupport_dynamic_type_fini(
   }
   (dynamic_type->serialization_support->interface->dynamic_type_fini)(
     dynamic_type->serialization_support->impl, dynamic_type->impl);
-  free(dynamic_type);
+  free(dynamic_type->impl);
 }
 
 

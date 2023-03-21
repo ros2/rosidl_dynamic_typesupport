@@ -44,6 +44,10 @@ void
 rosidl_dynamic_typesupport_serialization_support_fini(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 
+void
+rosidl_dynamic_typesupport_serialization_support_destroy(
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
+
 
 #ifdef __cplusplus
 }

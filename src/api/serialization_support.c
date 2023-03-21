@@ -57,5 +57,16 @@ rosidl_dynamic_typesupport_serialization_support_fini(
     serialization_support->impl);
   free(serialization_support->interface);
   free(serialization_support->impl);
+}
+
+
+void
+rosidl_dynamic_typesupport_serialization_support_destroy(
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support)
+{
+  if (!serialization_support) {
+    return;
+  }
+  rosidl_dynamic_typesupport_serialization_support_fini(serialization_support);
   free(serialization_support);
 }
