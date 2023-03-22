@@ -546,6 +546,29 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_mem
   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
   rosidl_dynamic_typesupport_dynamic_type_t * nested_struct, size_t sequence_bound);
 
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder, size_t array_length);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder, size_t sequence_bound);
 
 #ifdef __cplusplus
 }

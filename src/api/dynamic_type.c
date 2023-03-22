@@ -98,16 +98,21 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
     return NULL;
   }
 
+  // NOTE(methylDragon): This was a potential place to do string replacements for type descriptions
+  //                     from "/" delimiters to "::" delimiters to support DDS IDL names.
+  //
+  //                     But since this is meant to be middleware agnostic (potentially supporting
+  //                     non-DDS middlewares), replacements should happen in the support libraries
+  //                     on an as-needed basis.
+
   rosidl_dynamic_typesupport_dynamic_type_builder_t * out;
 
   // Short-circuit if the serialization support library has its own implementation
   if (serialization_support->interface->dynamic_type_builder_init_from_description) {
     out = calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_type_builder_t));
     out->serialization_support = serialization_support;
-    out->impl =
-      (serialization_support->interface->dynamic_type_builder_init_from_description)(
-      serialization_support
-      ->impl, description);
+    out->impl = (serialization_support->interface->dynamic_type_builder_init_from_description)(
+      serialization_support->impl, description);
     return out;
   }
 
@@ -259,11 +264,13 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
         break;
       case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_STRING_ARRAY:
         rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_string_array_member(
-          out, i, field->name.data, field->name.size, field->type.string_capacity, field->type.capacity);
+          out, i, field->name.data, field->name.size, field->type.string_capacity,
+          field->type.capacity);
         break;
       case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_WSTRING_ARRAY:
         rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_array_member(
-          out, i, field->name.data, field->name.size, field->type.string_capacity, field->type.capacity);
+          out, i, field->name.data, field->name.size, field->type.string_capacity,
+          field->type.capacity);
         break;
 
       // UNBOUNDED SEQUENCES
@@ -399,11 +406,13 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
         break;
       case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_STRING_BOUNDED_SEQUENCE:
         rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_string_array_member(
-          out, i, field->name.data, field->name.size, field->type.string_capacity, field->type.capacity);
+          out, i, field->name.data, field->name.size, field->type.string_capacity,
+          field->type.capacity);
         break;
       case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_WSTRING_BOUNDED_SEQUENCE:
         rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_array_member(
-          out, i, field->name.data, field->name.size, field->type.string_capacity, field->type.capacity);
+          out, i, field->name.data, field->name.size, field->type.string_capacity,
+          field->type.capacity);
         break;
 
       // NESTED
@@ -448,12 +457,12 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
           }
 
           // Recurse
-          rosidl_dynamic_typesupport_dynamic_type_t * nested_type =
-            rosidl_dynamic_typesupport_dynamic_type_init_from_description(
+          rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_type_builder =
+            rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
             serialization_support, recurse_desc);
           rosidl_runtime_c__type_description__TypeDescription__destroy(recurse_desc);
 
-          if (nested_type == NULL) {
+          if (nested_type_builder == NULL) {
             RCUTILS_LOG_ERROR(
               "Could not construct nested type_impl for field [%s]", field->name.data);
             rosidl_runtime_c__type_description__IndividualTypeDescription__destroy(
@@ -463,27 +472,34 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
             return NULL;
           }
 
+          /* *INDENT-OFF */
           switch (field->type.type_id) {
             case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE:
-              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member(
-                out, i, field->name.data, field->name.size, nested_type);
+              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member_builder(
+                out, i, field->name.data, field->name.size, nested_type_builder);
               break;
 
             case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_ARRAY:
-              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member(
-                out, i, field->name.data, field->name.size, nested_type, field->type.capacity);
+              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member_builder(
+                out, i, field->name.data, field->name.size, nested_type_builder,
+                field->type.capacity);
               break;
 
             case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE:
-              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member(
-                out, i, field->name.data, field->name.size, nested_type);
+              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member_builder(
+                // NOLINT
+                out, i, field->name.data, field->name.size, nested_type_builder);
               break;
 
             case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE:
-              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member(
-                out, i, field->name.data, field->name.size, nested_type, field->type.capacity);
+              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member_builder(
+                // NOLINT
+                out, i, field->name.data, field->name.size, nested_type_builder,
+                field->type.capacity);
               break;
           }
+          /* *INDENT-ON */
+          rosidl_dynamic_typesupport_dynamic_type_builder_fini(nested_type_builder);
         }
         break;
 
@@ -517,7 +533,9 @@ rosidl_dynamic_typesupport_dynamic_type_init_from_dynamic_type_builder(
   rosidl_dynamic_typesupport_dynamic_type_t * out =
     calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t));
   out->serialization_support = dynamic_type_builder->serialization_support;
-  out->impl = (dynamic_type_builder->serialization_support->interface->dynamic_type_init_from_dynamic_type_builder)(
+  out->impl =
+    (dynamic_type_builder->serialization_support->interface->
+    dynamic_type_init_from_dynamic_type_builder)(
     dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl);
   return out;
 }
@@ -1599,4 +1617,56 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_mem
   dynamic_type_builder_add_complex_bounded_sequence_member)(
     dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, name,
     name_length, nested_struct->impl, sequence_bound);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder)
+{
+  (dynamic_type_builder->serialization_support->interface->
+  dynamic_type_builder_add_complex_member_builder)(
+    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, name,
+    name_length, nested_struct_builder->impl);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder, size_t sequence_bound)
+{
+  (dynamic_type_builder->serialization_support->interface->
+  dynamic_type_builder_add_complex_array_member_builder)(
+    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, name,
+    name_length, nested_struct_builder->impl, sequence_bound);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder)
+{
+  (dynamic_type_builder->serialization_support->interface->
+  dynamic_type_builder_add_complex_unbounded_sequence_member_builder)(
+    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, name,
+    name_length, nested_struct_builder->impl);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member_builder(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * nested_struct_builder, size_t sequence_bound)
+{
+  (dynamic_type_builder->serialization_support->interface->
+  dynamic_type_builder_add_complex_bounded_sequence_member_builder)(
+    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, name,
+    name_length, nested_struct_builder->impl, sequence_bound);
 }
