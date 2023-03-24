@@ -574,11 +574,11 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
             return NULL;
           }
 
-          rosidl_runtime_c_type_description_utils_get_referenced_type_description_as_type_description(
-            &description->referenced_type_descriptions,
-            recurse_indiv_desc,
-            &recurse_desc,
+          /* *INDENT-OFF* */
+          rosidl_runtime_c_type_description_utils_get_referenced_type_description_as_type_description(  // NOLINT
+            &description->referenced_type_descriptions, recurse_indiv_desc, &recurse_desc,
             true);  // Coerce to valid
+          /* *INDENT-ON* */
           if (recurse_desc == NULL) {
             rosidl_runtime_c__type_description__IndividualTypeDescription__destroy(
               recurse_indiv_desc);
@@ -602,7 +602,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
             return NULL;
           }
 
-          /* *INDENT-OFF */
+          /* *INDENT-OFF* */
           switch (field->type.type_id) {
             case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE:
               rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member_builder(
@@ -621,8 +621,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
               break;
 
             case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE:
-              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member_builder(
-                // NOLINT
+              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member_builder(  // NOLINT
                 out, i,
                 field->name.data, field->name.size,
                 field->default_value.data, field->default_value.size,
@@ -630,15 +629,14 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
               break;
 
             case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE:
-              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member_builder(
-                // NOLINT
+              rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member_builder(  // NOLINT
                 out, i,
                 field->name.data, field->name.size,
                 field->default_value.data, field->default_value.size,
                 nested_type_builder, field->type.capacity);
               break;
           }
-          /* *INDENT-ON */
+          /* *INDENT-ON* */
           rosidl_dynamic_typesupport_dynamic_type_builder_fini(nested_type_builder);
         }
         break;
@@ -756,225 +754,40 @@ rosidl_dynamic_typesupport_dynamic_type_builder_set_name(
 
 
 // DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_bool_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
+#define ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(FunctionT) \
+  void \
+  rosidl_dynamic_typesupport_dynamic_type_builder_add_ ## FunctionT ## _member( \
+    rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, \
+    rosidl_dynamic_typesupport_member_id_t id, \
+    const char * name, size_t name_length, \
+    const char * default_value, size_t default_value_length) \
+  { \
+    (dynamic_type_builder->serialization_support->interface \
+        ->dynamic_type_builder_add_ ## FunctionT ## _member)( \
+      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, \
+      name, name_length, \
+      default_value, default_value_length); \
+  }
 
 
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_byte_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_byte_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_char_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_char_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_wchar_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_float32_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_float64_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_float128_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int8_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_int8_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint8_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_uint8_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int16_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_int16_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint16_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_uint16_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int32_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_int32_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint32_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_uint32_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int64_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_int64_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint64_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_uint64_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_string_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wstring_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_add_wstring_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id,
-    name, name_length,
-    default_value, default_value_length);
-}
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(bool)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(byte)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(char)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(wchar)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(float32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(float64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(float128)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(int8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(uint8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(int16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(uint16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(int32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(uint32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(int64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(uint64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(string)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN(wstring)
+#undef ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_MEMBER_FN
 
 
 void
@@ -1010,260 +823,41 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_member(
 
 
 // DYNAMIC TYPE STATIC ARRAY MEMBERS ===============================================================
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_bool_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
+#define ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(FunctionT) \
+  void \
+  rosidl_dynamic_typesupport_dynamic_type_builder_add_ ## FunctionT ## _array_member( \
+    rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, \
+    rosidl_dynamic_typesupport_member_id_t id, \
+    const char * name, size_t name_length, \
+    const char * default_value, size_t default_value_length, \
+    size_t array_length) \
+  { \
+    (dynamic_type_builder->serialization_support->interface-> \
+    dynamic_type_builder_add_ ## FunctionT ## _array_member)( \
+      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
+      id, name, name_length, default_value, default_value_length, \
+      array_length); \
+  }
 
 
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_byte_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_byte_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_char_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_char_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_wchar_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float32_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float64_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float128_array_member)(
-    dynamic_type_builder->serialization_support->
-    impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int8_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int8_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint8_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint8_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int16_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int16_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint16_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint16_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int32_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int32_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint32_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint32_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int64_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int64_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint64_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint64_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_string_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_string_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wstring_array_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t array_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_wstring_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    array_length);
-}
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(bool)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(byte)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(char)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(wchar)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(float32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(float64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(float128)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(int8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(uint8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(int16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(uint16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(int32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(uint32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(int64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(uint64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(string)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN(wstring)
+#undef ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_ARRAY_MEMBER_FN
 
 
 void
@@ -1297,259 +891,40 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_array_member
 
 
 // DYNAMIC TYPE UNBOUNDED SEQUENCE MEMBERS =========================================================
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_bool_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
+#define ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(FunctionT) \
+  void \
+  rosidl_dynamic_typesupport_dynamic_type_builder_add_ ## FunctionT ## _unbounded_sequence_member( \
+    rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, \
+    rosidl_dynamic_typesupport_member_id_t id, \
+    const char * name, size_t name_length, \
+    const char * default_value, size_t default_value_length) \
+  { \
+    (dynamic_type_builder->serialization_support->interface-> \
+    dynamic_type_builder_add_ ## FunctionT ## _unbounded_sequence_member)( \
+      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
+      id, name, name_length, \
+      default_value, default_value_length); \
+  }
 
 
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_byte_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_byte_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_char_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_char_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_wchar_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float32_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float64_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float128_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int8_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int8_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint8_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint8_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int16_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int16_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint16_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint16_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int32_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int32_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint32_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint32_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int64_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int64_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint64_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint64_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_string_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_string_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wstring_unbounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_wstring_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id,
-    name, name_length,
-    default_value, default_value_length);
-}
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(bool)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(byte)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(char)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(wchar)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(float32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(float64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(float128)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(int8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(uint8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(int16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(uint16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(int32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(uint32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(int64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(uint64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(string)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN(wstring)
+#undef ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_UNBOUNDED_SEQUENCE_MEMBER_FN
 
 
 void
@@ -1583,259 +958,42 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_unbounded_se
 
 
 // DYNAMIC TYPE BOUNDED SEQUENCE MEMBERS ===========================================================
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_bool_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
+#define ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(FunctionT) \
+  void \
+  rosidl_dynamic_typesupport_dynamic_type_builder_add_ ## FunctionT ## _bounded_sequence_member( \
+    rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, \
+    rosidl_dynamic_typesupport_member_id_t id, \
+    const char * name, size_t name_length, \
+    const char * default_value, size_t default_value_length, \
+    size_t sequence_bound) \
+  { \
+    (dynamic_type_builder->serialization_support->interface-> \
+     dynamic_type_builder_add_ ## FunctionT ## _bounded_sequence_member)( \
+      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
+      id, name, name_length, \
+      default_value, default_value_length, \
+      sequence_bound); \
+  }
 
 
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_byte_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_byte_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_char_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_char_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_wchar_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float32_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float64_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_float128_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int8_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int8_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint8_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint8_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int16_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int16_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint16_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint16_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int32_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int32_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint32_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint32_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_int64_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_int64_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_uint64_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_uint64_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_string_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_string_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
-
-
-void
-rosidl_dynamic_typesupport_dynamic_type_builder_add_wstring_bounded_sequence_member(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
-  const char * default_value, size_t default_value_length,
-  size_t sequence_bound)
-{
-  (dynamic_type_builder->serialization_support->interface->
-  dynamic_type_builder_add_wstring_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
-    id, name, name_length, default_value, default_value_length,
-    sequence_bound);
-}
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(bool)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(byte)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(char)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(wchar)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(float32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(float64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(float128)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(int8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(uint8)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(int16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(uint16)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(int32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(uint32)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(int64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(uint64)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(string)
+ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN(wstring)
+#undef ROSIDL_DYNAMIC_TYPE_BUILDER_ADD_BOUNDED_SEQUENCE_MEMBER_FN
 
 
 void
