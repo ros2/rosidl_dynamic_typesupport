@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <uchar.h>
+#include <rcutils/allocator.h>
 #include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_data.h>
 #include <rosidl_dynamic_typesupport/types.h>
@@ -109,8 +110,9 @@ rosidl_dynamic_typesupport_dynamic_data_loan_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
-    calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t));
+    allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
   out->serialization_support = dynamic_data->serialization_support;
   out->impl = (dynamic_data->serialization_support->interface->dynamic_data_loan_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id);
@@ -130,7 +132,8 @@ rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(
     outer_dynamic_data->serialization_support->impl,
     outer_dynamic_data->impl,
     inner_dynamic_data->impl);
-  free(inner_dynamic_data);
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  allocator.deallocate(inner_dynamic_data, &allocator.state);
 }
 
 
@@ -157,8 +160,9 @@ rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
-    calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t));
+    allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
   out->serialization_support = dynamic_type_builder->serialization_support;
   out->impl = (out->serialization_support->interface->dynamic_data_init_from_dynamic_type_builder)(
     out->serialization_support->impl, dynamic_type_builder->impl);
@@ -170,8 +174,9 @@ rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
   rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
-    calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t));
+    allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
   out->serialization_support = dynamic_type->serialization_support;
   out->impl = (out->serialization_support->interface->dynamic_data_init_from_dynamic_type)(
     out->serialization_support->impl, dynamic_type->impl);
@@ -183,8 +188,9 @@ rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_clone(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
-    calloc(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t));
+    allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
   out->serialization_support = dynamic_data->serialization_support;
   out->impl = (dynamic_data->serialization_support->interface->dynamic_data_clone)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
@@ -201,7 +207,8 @@ rosidl_dynamic_typesupport_dynamic_data_fini(
   }
   (dynamic_data->serialization_support->interface->dynamic_data_fini)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
-  free(dynamic_data->impl);
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  allocator.deallocate(dynamic_data->impl, &allocator.state);
 }
 
 

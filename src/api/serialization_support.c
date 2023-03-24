@@ -17,8 +17,9 @@
 
 #include <rosidl_dynamic_typesupport/api/serialization_support.h>
 #include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
-
 #include <rosidl_dynamic_typesupport/types.h>
+
+#include <rcutils/allocator.h>
 
 // CORE ============================================================================================
 const char *
@@ -36,9 +37,10 @@ rosidl_dynamic_typesupport_serialization_support_init(
 {
   assert(impl->library_identifier == interface->library_identifier);
 
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_serialization_support_t * ts =
-    (rosidl_dynamic_typesupport_serialization_support_t *) calloc(
-      1, sizeof(rosidl_dynamic_typesupport_serialization_support_t));
+    (rosidl_dynamic_typesupport_serialization_support_t *) allocator.zero_allocate(
+      1, sizeof(rosidl_dynamic_typesupport_serialization_support_t), &allocator.state);
   ts->library_identifier = interface->library_identifier;
   ts->impl = impl;
   ts->interface = interface;
@@ -55,8 +57,10 @@ rosidl_dynamic_typesupport_serialization_support_fini(
   }
   (serialization_support->interface->serialization_support_impl_handle_fini)(
     serialization_support->impl);
-  free(serialization_support->interface);
-  free(serialization_support->impl);
+
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  allocator.deallocate(serialization_support->interface, &allocator.state);
+  allocator.deallocate(serialization_support->impl, &allocator.state);
 }
 
 
@@ -67,6 +71,7 @@ rosidl_dynamic_typesupport_serialization_support_destroy(
   if (!serialization_support) {
     return;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_serialization_support_fini(serialization_support);
-  free(serialization_support);
+  allocator.deallocate(serialization_support, &allocator.state);
 }
