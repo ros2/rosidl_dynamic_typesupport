@@ -8,6 +8,8 @@ Properly implemented, a user should be able to, given a serialized buffer, the s
 
 ## Example Usage
 
+TODO(methylDragon): This is now slightly out of date...
+
 ```cpp
 // Init Serialization Support (in this case, using FastRTPS)
 rosidl_dynamic_typesupport_serialization_support_t * serialization_support =
@@ -119,4 +121,3 @@ And this is especially true given the fact that users are supposed to use the ty
 ## Type IDs
 
 The type IDs used by this library (in `types.h`) as pulling from the [type_descripion_interfaces](https://github.com/ros2/rcl_interfaces/tree/rolling/type_description_interfaces/msg) message definitions.
-
