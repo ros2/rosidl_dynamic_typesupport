@@ -23,6 +23,7 @@
 #include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_data.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_type.h>
+#include <rosidl_dynamic_typesupport/visibility_control.h>
 
 
 #ifdef __cplusplus
@@ -31,19 +32,23 @@ extern "C" {
 
 
 // CORE ============================================================================================
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 const char *
 rosidl_dynamic_typesupport_serialization_support_get_library_identifier(
   const rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_serialization_support_t *
 rosidl_dynamic_typesupport_serialization_support_init(
   rosidl_dynamic_typesupport_serialization_support_impl_t * impl,
   rosidl_dynamic_typesupport_serialization_support_interface_t * interface);
 
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 void
 rosidl_dynamic_typesupport_serialization_support_fini(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 void
 rosidl_dynamic_typesupport_serialization_support_destroy(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
