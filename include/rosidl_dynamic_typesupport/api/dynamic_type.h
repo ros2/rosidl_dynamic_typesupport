@@ -240,6 +240,22 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_member(
   const char * default_value, size_t default_value_length,
   size_t wstring_bound);
 
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t string_length);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t wstring_length);
+
 
 // DYNAMIC TYPE STATIC ARRAY MEMBERS ===============================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
@@ -394,6 +410,22 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_array_member
   const char * default_value, size_t default_value_length,
   size_t wstring_bound, size_t array_length);
 
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_array_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t string_length, size_t array_length);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_array_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t wstring_length, size_t array_length);
+
 
 // DYNAMIC TYPE UNBOUNDED SEQUENCE MEMBERS =========================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
@@ -530,6 +562,22 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_unbounded_se
   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
   const char * default_value, size_t default_value_length,
   size_t wstring_bound);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_unbounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t string_length);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_unbounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t wstring_length);
 
 
 // DYNAMIC TYPE BOUNDED SEQUENCE MEMBERS ===========================================================
@@ -684,6 +732,22 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_bounded_sequ
   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
   const char * default_value, size_t default_value_length,
   size_t wstring_bound, size_t sequence_bound);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_bounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t string_length, size_t sequence_bound);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_bounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length,
+  const char * default_value, size_t default_value_length,
+  size_t wstring_length, size_t sequence_bound);
 
 
 // DYNAMIC TYPE NESTED MEMBERS =====================================================================

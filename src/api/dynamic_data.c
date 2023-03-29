@@ -287,6 +287,34 @@ rosidl_dynamic_typesupport_dynamic_data_get_wstring_value(
 
 
 void
+rosidl_dynamic_typesupport_dynamic_data_get_fixed_string_value(
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id,
+  char ** value,
+  size_t * value_length,
+  size_t string_length)
+{
+  (dynamic_data->serialization_support->interface->dynamic_data_get_fixed_string_value)(
+    dynamic_data->serialization_support->impl, dynamic_data->impl,
+    id, value, value_length, string_length);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_data_get_fixed_wstring_value(
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id,
+  char16_t ** value,
+  size_t * value_length,
+  size_t wstring_length)
+{
+  (dynamic_data->serialization_support->interface->dynamic_data_get_fixed_wstring_value)(
+    dynamic_data->serialization_support->impl, dynamic_data->impl,
+    id, value, value_length, wstring_length);
+}
+
+
+void
 rosidl_dynamic_typesupport_dynamic_data_get_bounded_string_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -366,6 +394,34 @@ rosidl_dynamic_typesupport_dynamic_data_set_wstring_value(
 {
   (dynamic_data->serialization_support->interface->dynamic_data_set_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id, value, value_length);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_data_set_fixed_string_value(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id,
+  const char * value,
+  size_t value_length,
+  size_t string_length)
+{
+  (dynamic_data->serialization_support->interface->dynamic_data_set_fixed_string_value)(
+    dynamic_data->serialization_support->impl, dynamic_data->impl,
+    id, value, value_length, string_length);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_data_set_fixed_wstring_value(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id,
+  const char16_t * value,
+  size_t value_length,
+  size_t wstring_length)
+{
+  (dynamic_data->serialization_support->interface->dynamic_data_set_fixed_wstring_value)(
+    dynamic_data->serialization_support->impl, dynamic_data->impl,
+    id, value, value_length, wstring_length);
 }
 
 
@@ -478,6 +534,42 @@ rosidl_dynamic_typesupport_dynamic_data_insert_wstring_value(
 {
   (dynamic_data->serialization_support->interface->dynamic_data_insert_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, value, value_length, out_id);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_data_insert_fixed_string_value(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  const char * value,
+  size_t value_length,
+  size_t string_length,
+  rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  (dynamic_data->serialization_support->interface->dynamic_data_insert_fixed_string_value)(
+    dynamic_data->serialization_support->impl,
+    dynamic_data->impl,
+    value,
+    value_length,
+    string_length,
+    out_id);
+}
+
+
+void
+rosidl_dynamic_typesupport_dynamic_data_insert_fixed_wstring_value(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  const char16_t * value,
+  size_t value_length,
+  size_t wstring_length,
+  rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  (dynamic_data->serialization_support->interface->dynamic_data_insert_fixed_wstring_value)(
+    dynamic_data->serialization_support->impl,
+    dynamic_data->impl,
+    value,
+    value_length,
+    wstring_length,
+    out_id);
 }
 
 

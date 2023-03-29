@@ -149,6 +149,14 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_type_builder_add_wstring_member)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length);
+  void (* dynamic_type_builder_add_fixed_string_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t string_length);
+  void (* dynamic_type_builder_add_fixed_wstring_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t wstring_length);
   void (* dynamic_type_builder_add_bounded_string_member)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
@@ -157,12 +165,6 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
     size_t wstring_bound);
-  // void (* dynamic_type_builder_add_fixed_string_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length);
-  // void (* dynamic_type_builder_add_fixed_wstring_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length);
 
 
   // DYNAMIC TYPE STATIC ARRAY MEMBERS
@@ -234,6 +236,14 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
     size_t array_length);
+  void (* dynamic_type_builder_add_fixed_string_array_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t string_length, size_t array_length);
+  void (* dynamic_type_builder_add_fixed_wstring_array_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t wstring_length, size_t array_length);
   void (* dynamic_type_builder_add_bounded_string_array_member)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
@@ -242,14 +252,6 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
     size_t wstring_bound, size_t array_length);
-  // void (* dynamic_type_builder_add_fixed_string_array_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
-  //   size_t array_length);
-  // void (* dynamic_type_builder_add_fixed_wstring_array_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
-  //   size_t array_length);
 
 
   // DYNAMIC TYPE UNBOUNDED SEQUENCE MEMBERS
@@ -304,6 +306,14 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_type_builder_add_wstring_unbounded_sequence_member)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length);
+  void (* dynamic_type_builder_add_fixed_string_unbounded_sequence_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t string_length);
+  void (* dynamic_type_builder_add_fixed_wstring_unbounded_sequence_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t wstring_length);
   void (* dynamic_type_builder_add_bounded_string_unbounded_sequence_member)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
@@ -312,12 +322,6 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
     size_t wstring_bound);
-  // void (* dynamic_type_builder_add_fixed_string_unbounded_sequence_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length);
-  // void (* dynamic_type_builder_add_fixed_wstring_unbounded_sequence_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length);
 
 
   // DYNAMIC TYPE BOUNDED SEQUENCE MEMBERS
@@ -389,6 +393,14 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
     size_t sequence_bound);
+  void (* dynamic_type_builder_add_fixed_string_bounded_sequence_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t string_length, size_t sequence_bound);
+  void (* dynamic_type_builder_add_fixed_wstring_bounded_sequence_member)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
+    rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
+    size_t wstring_length, size_t sequence_bound);
   void (* dynamic_type_builder_add_bounded_string_bounded_sequence_member)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
@@ -397,14 +409,6 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
     size_t wstring_bound, size_t sequence_bound);
-  // void (* dynamic_type_builder_add_fixed_string_bounded_sequence_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
-  //   size_t sequence_bound);
-  // void (* dynamic_type_builder_add_fixed_wstring_bounded_sequence_member)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
-  //   rosidl_dynamic_typesupport_member_id_t id, const char * name, size_t name_length, const char * default_value, size_t default_value_length,
-  //   size_t sequence_bound);
 
 
   // DYNAMIC TYPE NESTED MEMBERS
@@ -570,18 +574,18 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_data_get_wstring_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id, char16_t ** value, size_t * value_length);
+  void (* dynamic_data_get_fixed_string_value)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    rosidl_dynamic_typesupport_member_id_t id, char ** value, size_t * value_length, size_t string_length);
+  void (* dynamic_data_get_fixed_wstring_value)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    rosidl_dynamic_typesupport_member_id_t id, char16_t ** value, size_t * value_length, size_t wstring_length);
   void (* dynamic_data_get_bounded_string_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id, char ** value, size_t * value_length, size_t string_bound);
   void (* dynamic_data_get_bounded_wstring_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id, char16_t ** value, size_t * value_length, size_t wstring_bound);
-  // void (* dynamic_data_get_fixed_string_value)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
-  //   rosidl_dynamic_typesupport_member_id_t id, const <WHAT TYPE TO USE?> ** value);
-  // void (* dynamic_data_get_fixed_wstring_value)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
-  //   rosidl_dynamic_typesupport_member_id_t id, const <WHAT TYPE TO USE?> ** value);
 
 
   // DYNAMIC DATA PRIMITIVE MEMBER SETTERS
@@ -636,20 +640,18 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_data_set_wstring_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id, const char16_t * value, size_t value_length);
+  void (* dynamic_data_set_fixed_string_value)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    rosidl_dynamic_typesupport_member_id_t id, const char * value, size_t value_length, size_t string_length);
+  void (* dynamic_data_set_fixed_wstring_value)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    rosidl_dynamic_typesupport_member_id_t id, const char16_t * value, size_t value_length, size_t wstring_length);
   void (* dynamic_data_set_bounded_string_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id, const char * value, size_t value_length, size_t string_bound);
   void (* dynamic_data_set_bounded_wstring_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id, const char16_t * value, size_t value_length, size_t wstring_bound);
-  // void (* dynamic_data_set_fixed_string_value)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
-  //   const <WHAT TYPE TO USE?> * value,
-  //   rosidl_dynamic_typesupport_member_id_t id);
-  // void (* dynamic_data_set_fixed_wstring_value)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
-  //   const <WHAT TYPE TO USE?> * value,
-  //   rosidl_dynamic_typesupport_member_id_t id);
 
 
   // DYNAMIC DATA SEQUENCES
@@ -713,18 +715,18 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   void (* dynamic_data_insert_wstring_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     const char16_t * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t * out_id);
+  void (* dynamic_data_insert_fixed_string_value)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    const char * value, size_t value_length, size_t string_length, rosidl_dynamic_typesupport_member_id_t * out_id);
+  void (* dynamic_data_insert_fixed_wstring_value)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    const char16_t * value, size_t value_length, size_t wstring_length, rosidl_dynamic_typesupport_member_id_t * out_id);
   void (* dynamic_data_insert_bounded_string_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     const char * value, size_t value_length, size_t string_bound, rosidl_dynamic_typesupport_member_id_t * out_id);
   void (* dynamic_data_insert_bounded_wstring_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     const char16_t * value, size_t value_length, size_t wstring_bound, rosidl_dynamic_typesupport_member_id_t * out_id);
-  // void (* dynamic_data_insert_fixed_string_value)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
-  //   const <WHAT TYPE TO USE?> * value, rosidl_dynamic_typesupport_member_id_t * out_id);
-  // void (* dynamic_data_insert_fixed_wstring_value)(
-  //   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support, rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
-  //   const <WHAT TYPE TO USE?> * value, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 
   // DYNAMIC DATA NESTED
