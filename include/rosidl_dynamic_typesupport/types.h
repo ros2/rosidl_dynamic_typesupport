@@ -15,6 +15,10 @@
 #ifndef ROSIDL_DYNAMIC_TYPESUPPORT__TYPES_H_
 #define ROSIDL_DYNAMIC_TYPESUPPORT__TYPES_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "rcutils/types/uint8_array.h"
 
 #include <rosidl_runtime_c/type_description/field__struct.h>
@@ -25,11 +29,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 // =================================================================================================

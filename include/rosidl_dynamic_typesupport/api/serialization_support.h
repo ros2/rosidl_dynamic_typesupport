@@ -18,17 +18,16 @@
 #ifndef ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_SUPPORT_H_
 #define ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_SUPPORT_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <rosidl_dynamic_typesupport/types.h>
 
 #include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_data.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_type.h>
 #include <rosidl_dynamic_typesupport/visibility_control.h>
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 // CORE ============================================================================================

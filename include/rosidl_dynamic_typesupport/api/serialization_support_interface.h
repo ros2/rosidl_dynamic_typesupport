@@ -18,6 +18,10 @@
 #ifndef ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_INTERFACE_H_
 #define ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_INTERFACE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stddef.h>
 #include <stdint.h>
 #include <uchar.h>
@@ -25,10 +29,6 @@
 #include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/types.h>
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 /// This interface must be adopted by all downstream serialization library implementations
