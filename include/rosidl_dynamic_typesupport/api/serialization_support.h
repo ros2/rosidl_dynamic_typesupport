@@ -29,6 +29,8 @@ extern "C" {
 #include <rosidl_dynamic_typesupport/api/dynamic_type.h>
 #include <rosidl_dynamic_typesupport/visibility_control.h>
 
+#include <rcutils/types/rcutils_ret.h>
+
 
 // CORE ============================================================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
@@ -43,12 +45,12 @@ rosidl_dynamic_typesupport_serialization_support_init(
   rosidl_dynamic_typesupport_serialization_support_interface_t * interface);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_serialization_support_fini(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_serialization_support_destroy(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 

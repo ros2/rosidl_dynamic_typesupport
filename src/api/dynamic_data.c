@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <uchar.h>
 #include <rcutils/allocator.h>
+#include <rcutils/error_handling.h>
+#include <rcutils/types/rcutils_ret.h>
 #include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_data.h>
 #include <rosidl_dynamic_typesupport/types.h>
@@ -26,30 +28,33 @@
 // =================================================================================================
 
 // DYNAMIC DATA UTILS ==============================================================================
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_clear_all_values(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_clear_all_values)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_clear_all_values)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_clear_nonkey_values(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_clear_nonkey_values)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_clear_nonkey_values)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_clear_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_clear_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_clear_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id);
 }
 
@@ -59,9 +64,13 @@ rosidl_dynamic_typesupport_dynamic_data_equals(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const rosidl_dynamic_typesupport_dynamic_data_t * other)
 {
-  assert(
-    dynamic_data->serialization_support->library_identifier ==
-    other->serialization_support->library_identifier);
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(other, RCUTILS_RET_INVALID_ARGUMENT);
+  if(dynamic_data->serialization_support->library_identifier !=
+    other->serialization_support->library_identifier) {
+    RCUTILS_SET_ERROR_MSG("Library identifiers for dynamic datas do not match");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  };
   return (dynamic_data->serialization_support->interface->dynamic_data_equals)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, other->impl);
 }
@@ -71,6 +80,7 @@ size_t
 rosidl_dynamic_typesupport_dynamic_data_get_item_count(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
   return (dynamic_data->serialization_support->interface->dynamic_data_get_item_count)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
 }
@@ -81,6 +91,8 @@ rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char * name,
   size_t name_length)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   return (dynamic_data->serialization_support->interface->dynamic_data_get_member_id_by_name)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, name, name_length);
 }
@@ -90,6 +102,7 @@ rosidl_dynamic_typesupport_member_id_t
 rosidl_dynamic_typesupport_dynamic_data_get_member_id_at_index(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t index)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
   return (dynamic_data->serialization_support->interface->dynamic_data_get_member_id_at_index)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, index);
 }
@@ -99,6 +112,7 @@ rosidl_dynamic_typesupport_member_id_t
 rosidl_dynamic_typesupport_dynamic_data_get_array_index(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t index)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
   return (dynamic_data->serialization_support->interface->dynamic_data_get_array_index)(
     dynamic_data
     ->serialization_support->impl, dynamic_data->impl, index);
@@ -110,9 +124,16 @@ rosidl_dynamic_typesupport_dynamic_data_loan_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
     allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
+  if (!out) {
+    // RCUTILS_SET_ERROR_MSG("Could not allocate dynamic data");
+    // return RCUTILS_BAD_ALLOC;
+  }
+
   out->serialization_support = dynamic_data->serialization_support;
   out->impl = (dynamic_data->serialization_support->interface->dynamic_data_loan_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id);
@@ -120,28 +141,39 @@ rosidl_dynamic_typesupport_dynamic_data_loan_value(
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(
   rosidl_dynamic_typesupport_dynamic_data_t * outer_dynamic_data,
   rosidl_dynamic_typesupport_dynamic_data_t * inner_dynamic_data)
 {
-  assert(
-    outer_dynamic_data->serialization_support->library_identifier ==
-    inner_dynamic_data->serialization_support->library_identifier);
-  (outer_dynamic_data->serialization_support->interface->dynamic_data_return_loaned_value)(
-    outer_dynamic_data->serialization_support->impl,
-    outer_dynamic_data->impl,
-    inner_dynamic_data->impl);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(outer_dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(inner_dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  if (outer_dynamic_data->serialization_support->library_identifier !=
+    inner_dynamic_data->serialization_support->library_identifier) {
+    RCUTILS_SET_ERROR_MSG("Library identifiers for dynamic datas do not match");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
+  rcutils_ret_t ret =
+    (outer_dynamic_data->serialization_support->interface->dynamic_data_return_loaned_value)(
+      outer_dynamic_data->serialization_support->impl,
+      outer_dynamic_data->impl,
+      inner_dynamic_data->impl);
+  if (ret != RCUTILS_RET_OK) {
+    RCUTILS_SET_ERROR_MSG("Could not return loaned value");
+    return ret;
+  }
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   allocator.deallocate(inner_dynamic_data, &allocator.state);
+  return RCUTILS_RET_OK;
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_print(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_print)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_print)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
 }
 
@@ -150,6 +182,8 @@ const char *
 rosidl_dynamic_typesupport_dynamic_data_get_name(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t * name_length)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(name_length, RCUTILS_RET_INVALID_ARGUMENT);
   return (dynamic_data->serialization_support->interface->dynamic_data_get_name)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, name_length);
 }
@@ -160,9 +194,16 @@ rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
+
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
     allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
+  if (!out) {
+    // RCUTILS_SET_ERROR_MSG("Could not allocate dynamic data");
+    // return RCUTILS_RET_BAD_ALLOC;
+  }
+
   out->serialization_support = dynamic_type_builder->serialization_support;
   out->impl = (out->serialization_support->interface->dynamic_data_init_from_dynamic_type_builder)(
     out->serialization_support->impl, dynamic_type_builder->impl);
@@ -174,9 +215,16 @@ rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
   rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type, RCUTILS_RET_INVALID_ARGUMENT);
+
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
     allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
+  if (!out) {
+    // RCUTILS_SET_ERROR_MSG("Could not allocate dynamic data");
+    // return RCUTILS_RET_BAD_ALLOC;
+  }
+
   out->serialization_support = dynamic_type->serialization_support;
   out->impl = (out->serialization_support->interface->dynamic_data_init_from_dynamic_type)(
     out->serialization_support->impl, dynamic_type->impl);
@@ -188,9 +236,16 @@ rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_clone(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_data_t * out =
     allocator.zero_allocate(1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), &allocator.state);
+  if (!out) {
+    // RCUTILS_SET_ERROR_MSG("Could not allocate dynamic data");
+    // return RCUTILS_RET_BAD_ALLOC;
+  }
+
   out->serialization_support = dynamic_data->serialization_support;
   out->impl = (dynamic_data->serialization_support->interface->dynamic_data_clone)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
@@ -198,17 +253,19 @@ rosidl_dynamic_typesupport_dynamic_data_clone(
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_fini(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
-  if (!dynamic_data) {
-    return;
-  }
-  (dynamic_data->serialization_support->interface->dynamic_data_fini)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  rcutils_ret_t ret = (dynamic_data->serialization_support->interface->dynamic_data_fini)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
+  if (ret != RCUTILS_RET_OK) {
+    return ret;
+  }
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   allocator.deallocate(dynamic_data->impl, &allocator.state);
+  return RCUTILS_RET_OK;
 }
 
 
@@ -217,6 +274,8 @@ bool
 rosidl_dynamic_typesupport_dynamic_data_serialize(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rcutils_uint8_array_t * buffer)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(buffer, RCUTILS_RET_INVALID_ARGUMENT);
   return (dynamic_data->serialization_support->interface->dynamic_data_serialize)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, buffer);
 }
@@ -226,6 +285,8 @@ bool
 rosidl_dynamic_typesupport_dynamic_data_deserialize(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rcutils_uint8_array_t * buffer)
 {
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(buffer, RCUTILS_RET_INVALID_ARGUMENT);
   return (dynamic_data->serialization_support->interface->dynamic_data_deserialize)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, buffer);
 }
@@ -233,14 +294,17 @@ rosidl_dynamic_typesupport_dynamic_data_deserialize(
 
 // DYNAMIC DATA PRIMITIVE MEMBER GETTERS ===========================================================
 #define ROSIDL_DYNAMIC_DATA_GET_VALUE_FN(FunctionT, ValueT) \
-  void \
+  rcutils_ret_t \
   rosidl_dynamic_typesupport_dynamic_data_get_ ## FunctionT ## _value( \
     const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, \
     rosidl_dynamic_typesupport_member_id_t id, \
     ValueT * value) \
   { \
-    (dynamic_data->serialization_support->interface->dynamic_data_get_ ## FunctionT ## _value)( \
-      dynamic_data->serialization_support->impl, dynamic_data->impl, id, value); \
+    RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT); \
+    RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT); \
+    return ( \
+      dynamic_data->serialization_support->interface->dynamic_data_get_ ## FunctionT ## _value)( \
+        dynamic_data->serialization_support->impl, dynamic_data->impl, id, value); \
   }
 
 
@@ -262,31 +326,37 @@ ROSIDL_DYNAMIC_DATA_GET_VALUE_FN(uint64, uint64_t)
 #undef ROSIDL_DYNAMIC_DATA_GET_VALUE_FN
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_string_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
   char ** value,
   size_t * value_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_get_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value_length, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_string_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id, value, value_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_wstring_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
   char16_t ** value,
   size_t * value_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_get_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value_length, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id, value, value_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_fixed_string_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -294,13 +364,16 @@ rosidl_dynamic_typesupport_dynamic_data_get_fixed_string_value(
   size_t * value_length,
   size_t string_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_get_fixed_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value_length, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_fixed_string_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, string_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_fixed_wstring_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -308,13 +381,16 @@ rosidl_dynamic_typesupport_dynamic_data_get_fixed_wstring_value(
   size_t * value_length,
   size_t wstring_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_get_fixed_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value_length, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_fixed_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, wstring_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_bounded_string_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -322,13 +398,16 @@ rosidl_dynamic_typesupport_dynamic_data_get_bounded_string_value(
   size_t * value_length,
   size_t string_bound)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_get_bounded_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value_length, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_bounded_string_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, string_bound);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_bounded_wstring_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -336,7 +415,10 @@ rosidl_dynamic_typesupport_dynamic_data_get_bounded_wstring_value(
   size_t * value_length,
   size_t wstring_bound)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_get_bounded_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value_length, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_bounded_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, wstring_bound);
 }
@@ -344,14 +426,16 @@ rosidl_dynamic_typesupport_dynamic_data_get_bounded_wstring_value(
 
 // DYNAMIC DATA PRIMITIVE MEMBER SETTERS ===========================================================
 #define ROSIDL_DYNAMIC_DATA_SET_VALUE_FN(FunctionT, ValueT) \
-  void \
+  rcutils_ret_t \
   rosidl_dynamic_typesupport_dynamic_data_set_ ## FunctionT ## _value( \
     rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, \
     rosidl_dynamic_typesupport_member_id_t id, \
     ValueT value) \
   { \
-    (dynamic_data->serialization_support->interface->dynamic_data_set_ ## FunctionT ## _value)( \
-      dynamic_data->serialization_support->impl, dynamic_data->impl, id, value); \
+    RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT); \
+    return (  \
+      dynamic_data->serialization_support->interface->dynamic_data_set_ ## FunctionT ## _value)( \
+        dynamic_data->serialization_support->impl, dynamic_data->impl, id, value); \
   }
 
 
@@ -373,31 +457,35 @@ ROSIDL_DYNAMIC_DATA_SET_VALUE_FN(uint64, uint64_t)
 #undef ROSIDL_DYNAMIC_DATA_SET_VALUE_FN
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_string_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
   const char * value,
   size_t value_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_set_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_set_string_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id, value, value_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
   const char16_t * value,
   size_t value_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_set_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_set_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id, value, value_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_fixed_string_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -405,13 +493,15 @@ rosidl_dynamic_typesupport_dynamic_data_set_fixed_string_value(
   size_t value_length,
   size_t string_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_set_fixed_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_set_fixed_string_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, string_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_fixed_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -419,13 +509,15 @@ rosidl_dynamic_typesupport_dynamic_data_set_fixed_wstring_value(
   size_t value_length,
   size_t wstring_length)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_set_fixed_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_set_fixed_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, wstring_length);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_bounded_string_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -433,13 +525,15 @@ rosidl_dynamic_typesupport_dynamic_data_set_bounded_string_value(
   size_t value_length,
   size_t string_bound)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_set_bounded_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_set_bounded_string_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, string_bound);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_bounded_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
@@ -447,51 +541,58 @@ rosidl_dynamic_typesupport_dynamic_data_set_bounded_wstring_value(
   size_t value_length,
   size_t wstring_bound)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_set_bounded_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_set_bounded_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl,
     id, value, value_length, wstring_bound);
 }
 
 
 // DYNAMIC DATA SEQUENCES ==========================================================================
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_clear_sequence_data(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_clear_sequence_data)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_clear_sequence_data)(
     dynamic_data->serialization_support->impl, dynamic_data->impl);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_remove_sequence_data(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_remove_sequence_data)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_remove_sequence_data)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_sequence_data(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_sequence_data)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_sequence_data)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, out_id);
 }
 
 
 #define ROSIDL_DYNAMIC_DATA_INSERT_VALUE_FN(FunctionT, ValueT) \
-  void \
+  rcutils_ret_t \
   rosidl_dynamic_typesupport_dynamic_data_insert_ ## FunctionT ## _value( \
     rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, \
     ValueT value, \
     rosidl_dynamic_typesupport_member_id_t * out_id) \
   { \
-    (dynamic_data->serialization_support->interface->dynamic_data_insert_ ## FunctionT ## _value)( \
-      dynamic_data->serialization_support->impl, dynamic_data->impl, value, out_id); \
+    RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT); \
+    return ( \
+      dynamic_data->serialization_support->interface->dynamic_data_insert_ ## FunctionT ## _value)(\
+        dynamic_data->serialization_support->impl, dynamic_data->impl, value, out_id); \
   }
 
 
@@ -513,31 +614,37 @@ ROSIDL_DYNAMIC_DATA_INSERT_VALUE_FN(uint64, uint64_t)
 #undef ROSIDL_DYNAMIC_DATA_INSERT_VALUE_FN
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_string_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const char * value,
   size_t value_length,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_string_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, value, value_length, out_id);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const char16_t * value,
   size_t value_length,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_wstring_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, value, value_length, out_id);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_fixed_string_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const char * value,
@@ -545,7 +652,10 @@ rosidl_dynamic_typesupport_dynamic_data_insert_fixed_string_value(
   size_t string_length,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_fixed_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_fixed_string_value)(
     dynamic_data->serialization_support->impl,
     dynamic_data->impl,
     value,
@@ -555,7 +665,7 @@ rosidl_dynamic_typesupport_dynamic_data_insert_fixed_string_value(
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_fixed_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const char16_t * value,
@@ -563,7 +673,10 @@ rosidl_dynamic_typesupport_dynamic_data_insert_fixed_wstring_value(
   size_t wstring_length,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_fixed_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_fixed_wstring_value)(
     dynamic_data->serialization_support->impl,
     dynamic_data->impl,
     value,
@@ -573,7 +686,7 @@ rosidl_dynamic_typesupport_dynamic_data_insert_fixed_wstring_value(
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_bounded_string_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const char * value,
@@ -581,7 +694,10 @@ rosidl_dynamic_typesupport_dynamic_data_insert_bounded_string_value(
   size_t string_bound,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_bounded_string_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_bounded_string_value)(
     dynamic_data->serialization_support->impl,
     dynamic_data->impl,
     value,
@@ -591,7 +707,7 @@ rosidl_dynamic_typesupport_dynamic_data_insert_bounded_string_value(
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_bounded_wstring_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const char16_t * value,
@@ -599,7 +715,10 @@ rosidl_dynamic_typesupport_dynamic_data_insert_bounded_wstring_value(
   size_t wstring_bound,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_bounded_wstring_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_bounded_wstring_value)(
     dynamic_data->serialization_support->impl,
     dynamic_data->impl,
     value,
@@ -610,46 +729,56 @@ rosidl_dynamic_typesupport_dynamic_data_insert_bounded_wstring_value(
 
 
 // DYNAMIC DATA NESTED =============================================================================
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_complex_value(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
   rosidl_dynamic_typesupport_dynamic_data_t ** value)
 {
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
   (*value)->serialization_support = dynamic_data->serialization_support;
-  (dynamic_data->serialization_support->interface->dynamic_data_get_complex_value)(
+  return (dynamic_data->serialization_support->interface->dynamic_data_get_complex_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id, &(*value)->impl);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_complex_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
   rosidl_dynamic_typesupport_dynamic_data_t * value)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_set_complex_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_set_complex_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, id, value->impl);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_complex_value_copy(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const rosidl_dynamic_typesupport_dynamic_data_t * value,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_complex_value_copy)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_complex_value_copy)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, value->impl, out_id);
 }
 
 
-void
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_complex_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_dynamic_data_t * value,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  (dynamic_data->serialization_support->interface->dynamic_data_insert_complex_value)(
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->interface->dynamic_data_insert_complex_value)(
     dynamic_data->serialization_support->impl, dynamic_data->impl, value->impl, out_id);
 }
