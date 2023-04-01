@@ -43,7 +43,7 @@ extern "C"
  * \param[in] cleanup_statement The statement to run before returning the non-ok return code.
  */
 #define ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP( \
-  statement_with_return_code, cleanup_statement) \
+    statement_with_return_code, cleanup_statement) \
   do { \
     rcutils_ret_t macro_ret_ = statement_with_return_code; \
     if (macro_ret_ != RCUTILS_RET_OK) { \

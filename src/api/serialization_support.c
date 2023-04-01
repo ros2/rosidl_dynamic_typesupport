@@ -53,7 +53,7 @@ rosidl_dynamic_typesupport_serialization_support_init(
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   *serialization_support =
     (rosidl_dynamic_typesupport_serialization_support_t *) allocator.zero_allocate(
-      1, sizeof(rosidl_dynamic_typesupport_serialization_support_t), &allocator.state);
+    1, sizeof(rosidl_dynamic_typesupport_serialization_support_t), &allocator.state);
   if (!*serialization_support) {
     RCUTILS_SET_ERROR_MSG("Could not allocate serialization support");
     return RCUTILS_RET_BAD_ALLOC;

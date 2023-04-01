@@ -19,16 +19,17 @@
 extern "C" {
 #endif
 
-#include "rcutils/types/uint8_array.h"
+
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #include <rosidl_runtime_c/type_description/field__struct.h>
 #include <rosidl_runtime_c/type_description/field_type__struct.h>
 #include <rosidl_runtime_c/type_description/individual_type_description__struct.h>
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
 
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
+#include "rcutils/types/uint8_array.h"
 
 
 // =================================================================================================
@@ -89,7 +90,7 @@ inline
 rosidl_dynamic_typesupport_serialization_support_t
 rosidl_dynamic_typesupport_get_zero_initialized_serialization_support(void)
 {
-  return (rosidl_dynamic_typesupport_serialization_support_t) {0, 0, 0};
+  return (rosidl_dynamic_typesupport_serialization_support_t) {0, 0, 0};  // NOLINT
 }
 
 
@@ -105,7 +106,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_builder_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_builder_t) {0, 0};
+  return (rosidl_dynamic_typesupport_dynamic_type_builder_t) {0, 0};  // NOLINT
 }
 
 
@@ -121,7 +122,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_t) {0, 0};
+  return (rosidl_dynamic_typesupport_dynamic_type_t) {0, 0};  // NOLINT
 }
 
 
@@ -137,7 +138,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_data_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_data_t) {0, 0};
+  return (rosidl_dynamic_typesupport_dynamic_data_t) {0, 0};  // NOLINT
 }
 
 // Impl Structs ====================================================================================
@@ -156,7 +157,7 @@ inline
 rosidl_dynamic_typesupport_serialization_support_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_serialization_support_impl(void)
 {
-  return (rosidl_dynamic_typesupport_serialization_support_impl_t) {0, 0};
+  return (rosidl_dynamic_typesupport_serialization_support_impl_t) {0, 0};  // NOLINT
 }
 
 // Dynamic Type Builder Impl
@@ -169,7 +170,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_builder_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder_impl(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_builder_impl_t) {0};
+  return (rosidl_dynamic_typesupport_dynamic_type_builder_impl_t) {0};  // NOLINT
 }
 
 
@@ -183,7 +184,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_type_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_impl(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_type_impl_t) {0};
+  return (rosidl_dynamic_typesupport_dynamic_type_impl_t) {0};  // NOLINT
 }
 
 
@@ -197,7 +198,7 @@ inline
 rosidl_dynamic_typesupport_dynamic_data_impl_t
 rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void)
 {
-  return (rosidl_dynamic_typesupport_dynamic_data_impl_t) {0};
+  return (rosidl_dynamic_typesupport_dynamic_data_impl_t) {0};  // NOLINT
 }
 
 
@@ -432,9 +433,9 @@ rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void)
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_FIXED_WSTRING_UNBOUNDED_SEQUENCE \
   rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FIXED_WSTRING_UNBOUNDED_SEQUENCE  // 164
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_STRING_UNBOUNDED_SEQUENCE \
-  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_STRING_UNBOUNDED_SEQUENCE  // 165
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_STRING_UNBOUNDED_SEQUENCE  // 165  // NOLINT
 #define ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_BOUNDED_WSTRING_UNBOUNDED_SEQUENCE \
-  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_WSTRING_UNBOUNDED_SEQUENCE  // 166
+  rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_BOUNDED_WSTRING_UNBOUNDED_SEQUENCE  // 166  // NOLINT
 
 
 #ifdef __cplusplus

@@ -776,7 +776,6 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
     if (ret != RCUTILS_RET_OK) {
       goto fail;
     }
-
   }  // looping over fields
 
   *dynamic_type_builder = out;
@@ -788,7 +787,7 @@ fail:
       "While handling another error, could not fini dynamic type builder");
   }
   return ret;
-}
+}  // NOLINT(readability/fn_size)
 
 
 rcutils_ret_t

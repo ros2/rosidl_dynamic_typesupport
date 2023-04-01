@@ -15,8 +15,8 @@
 /// Polymorphic serialization support interface
 /// Downstream middlewares should populate this interface as appropriate
 
-#ifndef ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_INTERFACE_H_
-#define ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_INTERFACE_H_
+#ifndef ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_SUPPORT_INTERFACE_H_
+#define ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_SUPPORT_INTERFACE_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,18 +45,13 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   /// Luckily for us, FastRTPS mimics the spec quite well
 
   /* TODOS??? (though these are just bonuses...)
-   *   - DynamicType::get_type_descriptor / DynamicType::get_descriptor (and the TypeDescriptor class)
+   *   - DynamicType::get_type_descriptor / DynamicType::get_descriptor (and TypeDescriptor class)
    *
    * I'm not sure if these are necessary, given the fact we will have the type description message
    * to guide the traversal? Also it's ambiguous what type we should be returning...:
    *   - DynamicType::get_all_members (Returns map of member ID to member)
    *   - DynamicType::get_all_members_by_name (Returns map of member name to member)
    */
-
-  // NOTE(methylDragon): I'm not sure when to return a value vs use an out-param...
-  //
-  //                     Also I'm pretty sure I should be using return codes, but I don't know if I
-  //                     should be using ROS flavored ones?
 
   // CORE
   const char * library_identifier;
@@ -76,7 +71,8 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     const rosidl_dynamic_typesupport_dynamic_type_impl_t * other,
     bool * equals);  // OUT
 
-  rcutils_ret_t (* dynamic_type_get_member_count)(  // "member" from XTypes spec
+  // "member" from XTypes spec
+  rcutils_ret_t (* dynamic_type_get_member_count)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     const rosidl_dynamic_typesupport_dynamic_type_impl_t * dynamic_type,
     size_t * member_count);  // OUT
@@ -871,7 +867,8 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * other,
     bool * equals);  // OUT
 
-  rcutils_ret_t (* dynamic_data_get_item_count)(  // "item" from XTypes
+  // "item" from XTypes
+  rcutils_ret_t (* dynamic_data_get_item_count)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     size_t * item_count);  // OUT
@@ -1364,11 +1361,11 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
 
 
   // DYNAMIC DATA NESTED
-  rcutils_ret_t (* dynamic_data_get_complex_value)(  // Copies
+  rcutils_ret_t (* dynamic_data_get_complex_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id,
-    rosidl_dynamic_typesupport_dynamic_data_impl_t ** value);  // OUT
+    rosidl_dynamic_typesupport_dynamic_data_impl_t ** value);  // OUT (copies)
 
   rcutils_ret_t (* dynamic_data_set_complex_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
@@ -1395,4 +1392,4 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
 }
 #endif
 
-#endif  // ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_INTERFACE_H_
+#endif  // ROSIDL_DYNAMIC_TYPESUPPORT__API__SERIALIZATION_SUPPORT_INTERFACE_H_
