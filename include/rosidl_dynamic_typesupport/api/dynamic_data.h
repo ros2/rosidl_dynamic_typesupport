@@ -52,38 +52,46 @@ rosidl_dynamic_typesupport_dynamic_data_clear_value(
   rosidl_dynamic_typesupport_member_id_t id);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-bool
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_equals(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  const rosidl_dynamic_typesupport_dynamic_data_t * other);
+  const rosidl_dynamic_typesupport_dynamic_data_t * other,
+  bool * equals);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-size_t
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_item_count(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  size_t * item_count);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rosidl_dynamic_typesupport_member_id_t
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, const char * name,
-  size_t name_length);
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  const char * name, size_t name_length,
+  rosidl_dynamic_typesupport_member_id_t * member_id);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rosidl_dynamic_typesupport_member_id_t
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_member_id_at_index(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t index);
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  size_t index,
+  rosidl_dynamic_typesupport_member_id_t * member_id);  // OUT
 
 // You must use this for arrays
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rosidl_dynamic_typesupport_member_id_t
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_array_index(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t index);
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  size_t index,
+  rosidl_dynamic_typesupport_member_id_t * array_index);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rosidl_dynamic_typesupport_dynamic_data_t *
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_loan_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
-  rosidl_dynamic_typesupport_member_id_t id);
+  rosidl_dynamic_typesupport_member_id_t id,
+  rosidl_dynamic_typesupport_dynamic_data_t ** loaned_dynamic_data);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
@@ -97,26 +105,31 @@ rosidl_dynamic_typesupport_dynamic_data_print(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-const char *
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_name(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, size_t * name_length);
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  const char ** name,  // OUT
+  size_t * name_length);  // OUT
 
 
 // DYNAMIC DATA CONSTRUCTION =======================================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rosidl_dynamic_typesupport_dynamic_data_t *
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_dynamic_typesupport_dynamic_data_t ** dynamic_data);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rosidl_dynamic_typesupport_dynamic_data_t *
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
-  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);
+  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type,
+  rosidl_dynamic_typesupport_dynamic_data_t ** dynamic_data);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rosidl_dynamic_typesupport_dynamic_data_t *
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_clone(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
+  const rosidl_dynamic_typesupport_dynamic_data_t * other_dynamic_data,
+  rosidl_dynamic_typesupport_dynamic_data_t ** dynamic_data);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
@@ -126,14 +139,18 @@ rosidl_dynamic_typesupport_dynamic_data_fini(
 
 // DYNAMIC DATA SERIALIZATION ======================================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-bool
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_serialize(
-  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rcutils_uint8_array_t * buffer);
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rcutils_uint8_array_t * buffer,  // OUT
+  bool * serialized);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-bool
+rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_deserialize(
-  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data, rcutils_uint8_array_t * buffer);
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,  // OUT
+  rcutils_uint8_array_t * buffer,
+  bool * success);  // OUT
 
 
 // DYNAMIC DATA PRIMITIVE MEMBER GETTERS ===========================================================

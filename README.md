@@ -8,7 +8,7 @@ Properly implemented, a user should be able to, given a serialized buffer, the s
 
 ## Example Usage
 
-TODO(methylDragon): This is now slightly out of date...
+TODO(methylDragon): This is now == VERY == out of date...
 
 ```cpp
 // Init Serialization Support (in this case, using FastRTPS)
