@@ -34,6 +34,10 @@ add_library(${PROJECT_NAME}
   "src/api/dynamic_data.c"
   "src/api/dynamic_type.c"
 )
+if(WIN32)
+  target_compile_definitions(${PROJECT_NAME}
+    PRIVATE "ROSIDL_DYNAMIC_TYPESUPPORT_BUILDING_DLL")
+endif()
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_include_directories(${PROJECT_NAME} PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
