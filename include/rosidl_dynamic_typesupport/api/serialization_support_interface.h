@@ -56,9 +56,11 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
   // CORE
   const char * library_identifier;
 
-  rcutils_ret_t (* serialization_support_impl_handle_fini)(
+  rcutils_ret_t (* serialization_support_impl_destroy)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * impl);
 
+  rcutils_ret_t (* serialization_support_interface_destroy)(
+    rosidl_dynamic_typesupport_serialization_support_interface_t * interface);
 
   // ===============================================================================================
   // DYNAMIC TYPE
@@ -89,7 +91,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     const rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * other,
     rosidl_dynamic_typesupport_dynamic_type_builder_impl_t ** dynamic_type_builder);  // OUT
 
-  rcutils_ret_t (* dynamic_type_builder_fini)(
+  rcutils_ret_t (* dynamic_type_builder_destroy)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
 
@@ -104,7 +106,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     const rosidl_dynamic_typesupport_dynamic_type_impl_t * other,
     rosidl_dynamic_typesupport_dynamic_type_impl_t ** dynamic_type);  // OUT
 
-  rcutils_ret_t (* dynamic_type_fini)(
+  rcutils_ret_t (* dynamic_type_destroy)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_type_impl_t * dynamic_type);
 
@@ -932,7 +934,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * other,
     rosidl_dynamic_typesupport_dynamic_data_impl_t ** dynamic_data);  // OUT
 
-  rcutils_ret_t (* dynamic_data_fini)(
+  rcutils_ret_t (* dynamic_data_destroy)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data);
 

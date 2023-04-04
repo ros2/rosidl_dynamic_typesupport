@@ -26,7 +26,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(flat_builder, 
 // Create Dynamic Type
 rosidl_dynamic_typesupport_dynamic_type_t * flat_type =
   rosidl_dynamic_typesupport_dynamic_type_builder_build(flat_builder);
-rosidl_dynamic_typesupport_dynamic_type_builder_fini(flat_builder);
+rosidl_dynamic_typesupport_dynamic_type_builder_destroy(flat_builder);
 
 // Create Dynamic Data
 rosidl_dynamic_typesupport_dynamic_data_t * flat_data =
@@ -51,7 +51,7 @@ rosidl_dynamic_typesupport_dynamic_data_print(flat_data);
 
 // Cleanup
 free(c);
-rosidl_dynamic_typesupport_dynamic_data_fini(flat_data);
+rosidl_dynamic_typesupport_dynamic_data_destroy(flat_data);
 
 ```
 

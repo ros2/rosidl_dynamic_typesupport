@@ -762,7 +762,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
               break;
           }
           /* *INDENT-ON* */
-          ret = rosidl_dynamic_typesupport_dynamic_type_builder_fini(nested_type_builder);
+          ret = rosidl_dynamic_typesupport_dynamic_type_builder_destroy(nested_type_builder);
         }
         break;
 
@@ -782,7 +782,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
   return RCUTILS_RET_OK;
 
 fail:
-  if (rosidl_dynamic_typesupport_dynamic_type_builder_fini(out) != RCUTILS_RET_OK) {
+  if (rosidl_dynamic_typesupport_dynamic_type_builder_destroy(out) != RCUTILS_RET_OK) {
     RCUTILS_SAFE_FWRITE_TO_STDERR(
       "While handling another error, could not fini dynamic type builder");
   }
@@ -791,17 +791,16 @@ fail:
 
 
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_builder_fini(
+rosidl_dynamic_typesupport_dynamic_type_builder_destroy(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder)
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_fini)(
+    (dynamic_type_builder->serialization_support->interface->dynamic_type_builder_destroy)(
       dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl)
   );
-
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
-  allocator.deallocate(dynamic_type_builder->impl, &allocator.state);
+  allocator.deallocate(dynamic_type_builder, &allocator.state);
   return RCUTILS_RET_OK;
 }
 
@@ -853,8 +852,9 @@ rosidl_dynamic_typesupport_dynamic_type_init_from_description(
 
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
     rosidl_dynamic_typesupport_dynamic_type_init_from_dynamic_type_builder(builder, &out),
-    rosidl_dynamic_typesupport_dynamic_type_builder_fini(builder)  // Cleanup
+    rosidl_dynamic_typesupport_dynamic_type_builder_destroy(builder)  // Cleanup
   );
+  rosidl_dynamic_typesupport_dynamic_type_builder_destroy(builder);
 
   *dynamic_type = out;
   return RCUTILS_RET_OK;
@@ -889,17 +889,16 @@ rosidl_dynamic_typesupport_dynamic_type_clone(
 
 
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_fini(
+rosidl_dynamic_typesupport_dynamic_type_destroy(
   rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type)
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type, RCUTILS_RET_INVALID_ARGUMENT);
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (dynamic_type->serialization_support->interface->dynamic_type_fini)(
+    (dynamic_type->serialization_support->interface->dynamic_type_destroy)(
       dynamic_type->serialization_support->impl, dynamic_type->impl);
   );
-
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
-  allocator.deallocate(dynamic_type->impl, &allocator.state);
+  allocator.deallocate(dynamic_type, &allocator.state);
   return RCUTILS_RET_OK;
 }
 

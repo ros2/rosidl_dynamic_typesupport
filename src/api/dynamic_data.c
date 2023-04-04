@@ -179,7 +179,6 @@ rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(
       outer_dynamic_data->impl,
       inner_dynamic_data->impl)
   );
-
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   allocator.deallocate(inner_dynamic_data, &allocator.state);
   return RCUTILS_RET_OK;
@@ -293,17 +292,16 @@ rosidl_dynamic_typesupport_dynamic_data_clone(
 
 
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_fini(
+rosidl_dynamic_typesupport_dynamic_data_destroy(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (dynamic_data->serialization_support->interface->dynamic_data_fini)(
+    (dynamic_data->serialization_support->interface->dynamic_data_destroy)(
       dynamic_data->serialization_support->impl, dynamic_data->impl)
   );
-
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
-  allocator.deallocate(dynamic_data->impl, &allocator.state);
+  allocator.deallocate(dynamic_data, &allocator.state);
   return RCUTILS_RET_OK;
 }
 

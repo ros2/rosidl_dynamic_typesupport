@@ -29,7 +29,6 @@ const char *
 rosidl_dynamic_typesupport_serialization_support_get_library_identifier(
   const rosidl_dynamic_typesupport_serialization_support_t * serialization_support)
 {
-  // RCUTILS_CHECK_ARGUMENT_FOR_NULL(serialization_support, RCUTILS_RET_INVALID_ARGUMENT);
   return serialization_support->library_identifier;
 }
 
@@ -67,29 +66,19 @@ rosidl_dynamic_typesupport_serialization_support_init(
 
 
 rcutils_ret_t
-rosidl_dynamic_typesupport_serialization_support_fini(
-  rosidl_dynamic_typesupport_serialization_support_t * serialization_support)
-{
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(serialization_support, RCUTILS_RET_INVALID_ARGUMENT);
-  ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (serialization_support->interface->serialization_support_impl_handle_fini)(
-      serialization_support->impl)
-  );
-
-  rcutils_allocator_t allocator = rcutils_get_default_allocator();
-  allocator.deallocate(serialization_support->interface, &allocator.state);
-  allocator.deallocate(serialization_support->impl, &allocator.state);
-  return RCUTILS_RET_OK;
-}
-
-
-rcutils_ret_t
 rosidl_dynamic_typesupport_serialization_support_destroy(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support)
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(serialization_support, RCUTILS_RET_INVALID_ARGUMENT);
+
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    rosidl_dynamic_typesupport_serialization_support_fini(serialization_support)
+    (serialization_support->interface->serialization_support_impl_destroy)(
+      serialization_support->impl)
+  );
+
+  ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
+    (serialization_support->interface->serialization_support_interface_destroy)(
+      serialization_support->interface)
   );
 
   rcutils_allocator_t allocator = rcutils_get_default_allocator();

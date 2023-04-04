@@ -133,7 +133,7 @@ rosidl_dynamic_typesupport_dynamic_data_clone(
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_fini(
+rosidl_dynamic_typesupport_dynamic_data_destroy(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
 
 

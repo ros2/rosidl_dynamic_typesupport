@@ -33,6 +33,10 @@ add_library(${PROJECT_NAME}
   "src/api/serialization_support.c"
   "src/api/dynamic_data.c"
   "src/api/dynamic_type.c"
+
+  "src/dynamic_message_type_support_struct.c"
+  "src/identifier.c"
+  "src/types.c"
 )
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME}

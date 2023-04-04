@@ -47,11 +47,6 @@ rosidl_dynamic_typesupport_serialization_support_init(
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_serialization_support_fini(
-  rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
-
-ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rcutils_ret_t
 rosidl_dynamic_typesupport_serialization_support_destroy(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
 

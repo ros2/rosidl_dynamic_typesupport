@@ -28,6 +28,7 @@ extern "C" {
 #include <rosidl_runtime_c/type_description/field_type__struct.h>
 #include <rosidl_runtime_c/type_description/individual_type_description__struct.h>
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
+#include "rosidl_dynamic_typesupport/visibility_control.h"
 
 #include "rcutils/types/uint8_array.h"
 
@@ -71,6 +72,7 @@ typedef struct \
   rosidl_dynamic_typesupport_dynamic_data_impl_s \
   rosidl_dynamic_typesupport_dynamic_data_impl_t;
 
+
 // Interface Structs ===============================================================================
 // These are the objects that the client libraries are expected to use
 
@@ -86,12 +88,9 @@ struct rosidl_dynamic_typesupport_serialization_support_s
   rosidl_dynamic_typesupport_serialization_support_interface_t * interface;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_serialization_support_t
-rosidl_dynamic_typesupport_get_zero_initialized_serialization_support(void)
-{
-  return (rosidl_dynamic_typesupport_serialization_support_t) {0, 0, 0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_serialization_support(void);
 
 
 // Dynamic Type Builder
@@ -102,12 +101,9 @@ struct rosidl_dynamic_typesupport_dynamic_type_builder_s
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_dynamic_type_builder_t
-rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder(void)
-{
-  return (rosidl_dynamic_typesupport_dynamic_type_builder_t) {0, 0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder(void);
 
 
 // Dynamic Type
@@ -118,12 +114,9 @@ struct rosidl_dynamic_typesupport_dynamic_type_s
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_dynamic_type_t
-rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type(void)
-{
-  return (rosidl_dynamic_typesupport_dynamic_type_t) {0, 0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type(void);
 
 
 // Dynamic Data
@@ -134,12 +127,10 @@ struct rosidl_dynamic_typesupport_dynamic_data_s
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_dynamic_data_t
-rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data(void)
-{
-  return (rosidl_dynamic_typesupport_dynamic_data_t) {0, 0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data(void);
+
 
 // Impl Structs ====================================================================================
 // These are the objects that the serialization support libraries are expected to use
@@ -153,12 +144,10 @@ struct rosidl_dynamic_typesupport_serialization_support_impl_s
   void * handle;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_serialization_support_impl_t
-rosidl_dynamic_typesupport_get_zero_initialized_serialization_support_impl(void)
-{
-  return (rosidl_dynamic_typesupport_serialization_support_impl_t) {0, 0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_serialization_support_impl(void);
+
 
 // Dynamic Type Builder Impl
 struct rosidl_dynamic_typesupport_dynamic_type_builder_impl_s
@@ -166,12 +155,9 @@ struct rosidl_dynamic_typesupport_dynamic_type_builder_impl_s
   void * handle;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_dynamic_type_builder_impl_t
-rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder_impl(void)
-{
-  return (rosidl_dynamic_typesupport_dynamic_type_builder_impl_t) {0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder_impl(void);
 
 
 // Dynamic Type Impl
@@ -180,12 +166,9 @@ struct rosidl_dynamic_typesupport_dynamic_type_impl_s
   void * handle;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_dynamic_type_impl_t
-rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_impl(void)
-{
-  return (rosidl_dynamic_typesupport_dynamic_type_impl_t) {0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_impl(void);
 
 
 // Dynamic Data Impl
@@ -194,12 +177,9 @@ struct rosidl_dynamic_typesupport_dynamic_data_impl_s
   void * handle;
 };
 
-inline
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rosidl_dynamic_typesupport_dynamic_data_impl_t
-rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void)
-{
-  return (rosidl_dynamic_typesupport_dynamic_data_impl_t) {0};  // NOLINT
-}
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void);
 
 
 // =================================================================================================

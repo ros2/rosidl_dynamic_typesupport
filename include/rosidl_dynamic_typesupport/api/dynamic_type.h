@@ -70,7 +70,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_builder_fini(
+rosidl_dynamic_typesupport_dynamic_type_builder_destroy(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
@@ -94,7 +94,7 @@ rosidl_dynamic_typesupport_dynamic_type_clone(
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_fini(
+rosidl_dynamic_typesupport_dynamic_type_destroy(
   rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
