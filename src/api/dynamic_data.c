@@ -14,7 +14,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include <uchar.h>
+
 #include <rcutils/allocator.h>
 #include <rcutils/error_handling.h>
 #include <rcutils/types/rcutils_ret.h>
@@ -22,6 +22,7 @@
 #include <rosidl_dynamic_typesupport/api/dynamic_data.h>
 #include <rosidl_dynamic_typesupport/macros.h>
 #include <rosidl_dynamic_typesupport/types.h>
+#include <rosidl_dynamic_typesupport/uchar.h>
 
 
 // =================================================================================================

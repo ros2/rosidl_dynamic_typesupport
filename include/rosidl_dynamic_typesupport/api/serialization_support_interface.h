@@ -24,13 +24,12 @@ extern "C" {
 
 #include <stddef.h>
 #include <stdint.h>
-#include <uchar.h>
 
 #include <rcutils/types/rcutils_ret.h>
 #include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/types.h>
+#include <rosidl_dynamic_typesupport/uchar.h>
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
-
 
 /// This interface must be adopted by all downstream serialization library implementations
 

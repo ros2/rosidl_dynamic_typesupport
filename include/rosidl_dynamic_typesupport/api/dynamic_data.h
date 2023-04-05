@@ -22,12 +22,11 @@
 extern "C" {
 #endif
 
-#include <uchar.h>
-
 #include <rcutils/types/rcutils_ret.h>
 #include <rcutils/types/uint8_array.h>
 #include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
 #include <rosidl_dynamic_typesupport/visibility_control.h>
+#include <rosidl_dynamic_typesupport/uchar.h>
 
 
 // ===============================================================================================
