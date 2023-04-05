@@ -79,13 +79,16 @@ typedef struct \
 /// Serialization Support
 /// This is the main structure that encompasses:
 ///   - impl - The library-specific objects or implementation details
-///   - interface - The shared serialization support interface, populated with serialization
+///   - methods - The shared serialization support interface, populated with serialization
 ///     library-specific function pointers
 struct rosidl_dynamic_typesupport_serialization_support_s
 {
   const char * library_identifier;
   rosidl_dynamic_typesupport_serialization_support_impl_t * impl;
-  rosidl_dynamic_typesupport_serialization_support_interface_t * interface;
+
+  // NOTE(methylDragon): Can't call it `interface` because it's a reserved term in some Windows
+  //                     versions...
+  rosidl_dynamic_typesupport_serialization_support_interface_t * methods;
 };
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC

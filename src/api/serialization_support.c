@@ -36,14 +36,14 @@ rosidl_dynamic_typesupport_serialization_support_get_library_identifier(
 rcutils_ret_t
 rosidl_dynamic_typesupport_serialization_support_init(
   rosidl_dynamic_typesupport_serialization_support_impl_t * impl,
-  rosidl_dynamic_typesupport_serialization_support_interface_t * interface,
+  rosidl_dynamic_typesupport_serialization_support_interface_t * methods,
   rosidl_dynamic_typesupport_serialization_support_t ** serialization_support)
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(impl, RCUTILS_RET_INVALID_ARGUMENT);
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(interface, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(methods, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(serialization_support, RCUTILS_RET_INVALID_ARGUMENT);
 
-  if (impl->library_identifier != interface->library_identifier) {
+  if (impl->library_identifier != methods->library_identifier) {
     RCUTILS_SET_ERROR_MSG(
       "Library identifiers for serialization support impl and interface do not match");
     return RCUTILS_RET_INVALID_ARGUMENT;
@@ -58,9 +58,9 @@ rosidl_dynamic_typesupport_serialization_support_init(
     return RCUTILS_RET_BAD_ALLOC;
   }
 
-  (*serialization_support)->library_identifier = interface->library_identifier;
+  (*serialization_support)->library_identifier = methods->library_identifier;
   (*serialization_support)->impl = impl;
-  (*serialization_support)->interface = interface;
+  (*serialization_support)->methods = methods;
   return RCUTILS_RET_OK;
 }
 
@@ -72,13 +72,13 @@ rosidl_dynamic_typesupport_serialization_support_destroy(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(serialization_support, RCUTILS_RET_INVALID_ARGUMENT);
 
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (serialization_support->interface->serialization_support_impl_destroy)(
+    (serialization_support->methods->serialization_support_impl_destroy)(
       serialization_support->impl)
   );
 
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (serialization_support->interface->serialization_support_interface_destroy)(
-      serialization_support->interface)
+    (serialization_support->methods->serialization_support_interface_destroy)(
+      serialization_support->methods)
   );
 
   rcutils_allocator_t allocator = rcutils_get_default_allocator();

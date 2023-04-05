@@ -60,7 +60,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_serialization_support_impl_t * impl);
 
   rcutils_ret_t (* serialization_support_interface_destroy)(
-    rosidl_dynamic_typesupport_serialization_support_interface_t * interface);
+    rosidl_dynamic_typesupport_serialization_support_interface_t * methods);
 
   // ===============================================================================================
   // DYNAMIC TYPE
