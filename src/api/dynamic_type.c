@@ -138,8 +138,12 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(description, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
 
-  if (!rosidl_runtime_c_type_description_utils_type_description_is_valid(description)) {
-    RCUTILS_SET_ERROR_MSG("Type description is not valid");
+  if (rosidl_runtime_c_type_description_utils_type_description_is_valid(description) !=
+    RCUTILS_RET_OK)
+  {
+    rcutils_error_string_t error_string = rcutils_get_error_string();
+    rcutils_reset_error();
+    RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING("Type description is not valid: %s", error_string.str);
     return RCUTILS_RET_INVALID_ARGUMENT;
   }
 

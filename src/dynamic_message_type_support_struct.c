@@ -129,8 +129,11 @@ rosidl_dynamic_message_type_support_handle_init(
   ret = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
     ts_impl->dynamic_message_type, &ts_impl->dynamic_message);
   if (ret != RCUTILS_RET_OK || !ts_impl->dynamic_message) {
-    RCUTILS_SET_ERROR_MSG(
-      "Could not construct dynamic data for rosidl_dynamic_message_type_support_impl_t struct");
+    rcutils_error_string_t error_string = rcutils_get_error_string();
+    rcutils_reset_error();
+    RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
+      "Could not construct dynamic data for rosidl_dynamic_message_type_support_impl_t struct:\n%s",
+      error_string.str);
     goto fail;
   }
 
@@ -138,9 +141,8 @@ rosidl_dynamic_message_type_support_handle_init(
 
 fail:
   if (rosidl_dynamic_message_type_support_handle_destroy(*ts) != RCUTILS_RET_OK) {
-    RCUTILS_LOG_ERROR_NAMED(
-      rosidl_dynamic_typesupport_c__identifier,
-      "Could not destroy dynamic message typesupport");
+    RCUTILS_SAFE_FWRITE_TO_STDERR(
+      "While handling another error, could not destroy dynamic message typesupport");
   }
   return ret;
 }
