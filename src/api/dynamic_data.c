@@ -185,17 +185,6 @@ rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(
   return RCUTILS_RET_OK;
 }
 
-
-rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_print(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data)
-{
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_data->serialization_support->methods->dynamic_data_print)(
-    dynamic_data->serialization_support->impl, dynamic_data->impl);
-}
-
-
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_name(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,

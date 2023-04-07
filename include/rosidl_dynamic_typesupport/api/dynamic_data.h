@@ -100,11 +100,6 @@ rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_print(
-  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data);
-
-ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
-rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_name(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   const char ** name,  // OUT

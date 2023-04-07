@@ -904,12 +904,6 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * inner_data);
 
-
-  rcutils_ret_t (* dynamic_data_print)(
-    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
-    const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data);
-
-
   rcutils_ret_t (* dynamic_data_get_name)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
