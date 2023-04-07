@@ -212,7 +212,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_name(
 
 // DYNAMIC DATA CONSTRUCTION =======================================================================
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
+rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type_builder(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
   rosidl_dynamic_typesupport_dynamic_data_t ** dynamic_data)
 {
@@ -229,7 +229,7 @@ rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
 
   out->serialization_support = dynamic_type_builder->serialization_support;
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
-    (out->serialization_support->methods->dynamic_data_init_from_dynamic_type_builder)(
+    (out->serialization_support->methods->dynamic_data_create_from_dynamic_type_builder)(
       out->serialization_support->impl, dynamic_type_builder->impl, &out->impl),
     allocator.deallocate(out, allocator.state)  // Cleanup
   );
@@ -239,7 +239,7 @@ rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
 
 
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
+rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(
   rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type,
   rosidl_dynamic_typesupport_dynamic_data_t ** dynamic_data)
 {
@@ -256,7 +256,7 @@ rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
 
   out->serialization_support = dynamic_type->serialization_support;
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
-    (out->serialization_support->methods->dynamic_data_init_from_dynamic_type)(
+    (out->serialization_support->methods->dynamic_data_create_from_dynamic_type)(
       out->serialization_support->impl, dynamic_type->impl, &out->impl),
     allocator.deallocate(out, allocator.state)  // Cleanup
   );

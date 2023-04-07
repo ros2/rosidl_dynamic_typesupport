@@ -26,7 +26,7 @@
 
 
 rcutils_ret_t
-rosidl_dynamic_message_type_support_handle_init(
+rosidl_dynamic_message_type_support_handle_create(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
   const rosidl_type_hash_t * type_hash,
   const rosidl_runtime_c__type_description__TypeDescription * type_description,
@@ -118,7 +118,7 @@ rosidl_dynamic_message_type_support_handle_init(
   (*ts)->get_type_description_sources_func =
     rosidl_get_dynamic_message_type_support_type_description_sources_function;
 
-  ret = rosidl_dynamic_typesupport_dynamic_type_init_from_description(
+  ret = rosidl_dynamic_typesupport_dynamic_type_create_from_description(
     ts_impl->serialization_support, type_description, &ts_impl->dynamic_message_type);
   if (ret != RCUTILS_RET_OK || !ts_impl->dynamic_message_type) {
     RCUTILS_SET_ERROR_MSG(
@@ -126,7 +126,7 @@ rosidl_dynamic_message_type_support_handle_init(
     goto fail;
   }
 
-  ret = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
+  ret = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(
     ts_impl->dynamic_message_type, &ts_impl->dynamic_message);
   if (ret != RCUTILS_RET_OK || !ts_impl->dynamic_message) {
     rcutils_error_string_t error_string = rcutils_get_error_string();

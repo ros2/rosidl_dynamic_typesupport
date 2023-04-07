@@ -21,7 +21,7 @@ extern "C" {
 
 
 #if defined __has_include
-#  if __has_include (<uchar.h>)
+#  if __has_include(<uchar.h>)
 #    include <uchar.h>
 #    define INCLUDED_UCHAR 1
 #  endif

@@ -80,7 +80,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
 
 
   // DYNAMIC TYPE CONSTRUCTION
-  rcutils_ret_t (* dynamic_type_builder_init)(
+  rcutils_ret_t (* dynamic_type_builder_create)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     const char * name, size_t name_length,
     rosidl_dynamic_typesupport_dynamic_type_builder_impl_t ** dynamic_type_builder);  // OUT
@@ -95,7 +95,7 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder);
 
 
-  rcutils_ret_t (* dynamic_type_init_from_dynamic_type_builder)(
+  rcutils_ret_t (* dynamic_type_create_from_dynamic_type_builder)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_dynamic_type_impl_t ** dynamic_type);  // OUT
@@ -918,12 +918,12 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
 
 
   // DYNAMIC DATA CONSTRUCTION
-  rcutils_ret_t (* dynamic_data_init_from_dynamic_type_builder)(
+  rcutils_ret_t (* dynamic_data_create_from_dynamic_type_builder)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * dynamic_type_builder,
     rosidl_dynamic_typesupport_dynamic_data_impl_t ** dynamic_data);  // OUT
 
-  rcutils_ret_t (* dynamic_data_init_from_dynamic_type)(
+  rcutils_ret_t (* dynamic_data_create_from_dynamic_type)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_type_impl_t * type,
     rosidl_dynamic_typesupport_dynamic_data_impl_t ** dynamic_data);  // OUT

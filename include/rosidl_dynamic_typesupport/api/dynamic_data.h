@@ -114,13 +114,13 @@ rosidl_dynamic_typesupport_dynamic_data_get_name(
 // DYNAMIC DATA CONSTRUCTION =======================================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
+rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type_builder(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
   rosidl_dynamic_typesupport_dynamic_data_t ** dynamic_data);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
+rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(
   rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type,
   rosidl_dynamic_typesupport_dynamic_data_t ** dynamic_data);  // OUT
 

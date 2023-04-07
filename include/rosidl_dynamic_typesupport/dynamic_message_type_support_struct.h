@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ROSIDL_DYNAMIC_TYPESUPPORT__MESSAGE_TYPE_SUPPORT_H_
-#define ROSIDL_DYNAMIC_TYPESUPPORT__MESSAGE_TYPE_SUPPORT_H_
+#ifndef ROSIDL_DYNAMIC_TYPESUPPORT__DYNAMIC_MESSAGE_TYPE_SUPPORT_STRUCT_H_
+#define ROSIDL_DYNAMIC_TYPESUPPORT__DYNAMIC_MESSAGE_TYPE_SUPPORT_STRUCT_H_
 
 #ifdef __cplusplus
 extern "C"
@@ -21,15 +21,14 @@ extern "C"
 #endif
 
 #include <rcutils/types/rcutils_ret.h>
-
-#include <rosidl_dynamic_typesupport/api/serialization_support.h>
-#include "rosidl_dynamic_typesupport/identifier.h"
-#include <rosidl_dynamic_typesupport/types.h>
-#include "rosidl_dynamic_typesupport/visibility_control.h"
-
 #include <rosidl_runtime_c/message_type_support_struct.h>
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
 #include <rosidl_runtime_c/type_description/type_source__struct.h>
+
+#include "rosidl_dynamic_typesupport/api/serialization_support.h"
+#include "rosidl_dynamic_typesupport/identifier.h"
+#include "rosidl_dynamic_typesupport/types.h"
+#include "rosidl_dynamic_typesupport/visibility_control.h"
 
 
 // RUNTIME INTERFACE REFLECTION TYPE SUPPORT =======================================================
@@ -72,7 +71,7 @@ typedef struct rosidl_dynamic_message_type_support_impl_s
 /// Init a dynamic message type support handle
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_message_type_support_handle_init(
+rosidl_dynamic_message_type_support_handle_create(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
   const rosidl_type_hash_t * type_hash,
   const rosidl_runtime_c__type_description__TypeDescription * type_description,
@@ -80,7 +79,7 @@ rosidl_dynamic_message_type_support_handle_init(
   rosidl_message_type_support_t ** ts);
 
 /// Destroy a rosidl_message_type_support_t obtained with
-/// rmw_dynamic_message_type_support_handle_init, which has dynamically allocated members
+/// `rmw_dynamic_message_type_support_handle_create()`, which has dynamically allocated members
 ///
 /// NOTE: Using this on a statically allocated typesupport will cause undefined behavior!
 ///       (Static memory will get freed in that case.)
@@ -111,4 +110,4 @@ rosidl_get_dynamic_message_type_support_type_description_sources_function(
 }
 #endif
 
-#endif  // ROSIDL_DYNAMIC_TYPESUPPORT__MESSAGE_TYPE_SUPPORT_H_
+#endif  // ROSIDL_DYNAMIC_TYPESUPPORT__DYNAMIC_MESSAGE_TYPE_SUPPORT_STRUCT_H_
