@@ -8,8 +8,6 @@ Properly implemented, a user should be able to, given a serialized buffer, the s
 
 ## Example Usage
 
-TODO(methylDragon): This is now == VERY == out of date...
-
 ```cpp
 // Init Serialization Support (in this case, using FastRTPS)
 rosidl_dynamic_typesupport_serialization_support_t * serialization_support =
@@ -33,21 +31,18 @@ rosidl_dynamic_typesupport_dynamic_data_t * flat_data =
   rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(flat_type);
 
 // Dynamic Data Setters
-rosidl_dynamic_typesupport_dynamic_data_set_bool_value(flat_data, true, 0);
-rosidl_dynamic_typesupport_dynamic_data_set_int32_value(flat_data, 42, 1);
-rosidl_dynamic_typesupport_dynamic_data_set_string_value(flat_data, "rar", 2);
+rosidl_dynamic_typesupport_dynamic_data_set_bool_value(flat_data, 0, true);
+rosidl_dynamic_typesupport_dynamic_data_set_int32_value(flat_data, 1, 42);
+rosidl_dynamic_typesupport_dynamic_data_set_string_value(flat_data, 2, "rar");
 
 // Dynamic Data Getters
 bool a;
 int32_t b;
 char * c;
 
-rosidl_dynamic_typesupport_dynamic_data_get_bool_value(flat_data, &a, 0);  // true
-rosidl_dynamic_typesupport_dynamic_data_get_int32_value(flat_data, &b, 1);  // 42
-rosidl_dynamic_typesupport_dynamic_data_get_string_value(flat_data, &c, 2);  // "rar"
-
-// Utils
-rosidl_dynamic_typesupport_dynamic_data_print(flat_data);
+rosidl_dynamic_typesupport_dynamic_data_get_bool_value(flat_data, 0, &a);  // true
+rosidl_dynamic_typesupport_dynamic_data_get_int32_value(flat_data, 1, &b);  // 42
+rosidl_dynamic_typesupport_dynamic_data_get_string_value(flat_data, 2, &c);  // "rar"
 
 // Cleanup
 free(c);
@@ -85,7 +80,7 @@ The Serialization Support includes, for each supported middleware:
   - Note the lack of ability to get type members
 - Getting and setting data members based off that type (dynamic data)
 - Support for sequences and nested members
-- Utilities (e.g. printing of data)
+- Utilities
 
 The interface makes heavy use of `void *` casting to abstract away any necessary objects used with each serialization library.
 
@@ -120,4 +115,4 @@ And this is especially true given the fact that users are supposed to use the ty
 
 ## Type IDs
 
-The type IDs used by this library (in `types.h`) as pulling from the [type_descripion_interfaces](https://github.com/ros2/rcl_interfaces/tree/rolling/type_description_interfaces/msg) message definitions.
+The type IDs used by this library (in `types.h`) are pulling from the [type_descripion_interfaces](https://github.com/ros2/rcl_interfaces/tree/rolling/type_description_interfaces/msg) message definitions.

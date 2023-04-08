@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <rosidl_dynamic_typesupport/api/dynamic_data.h>
+
 #include <assert.h>
 #include <stdlib.h>
 
@@ -19,7 +21,7 @@
 #include <rcutils/error_handling.h>
 #include <rcutils/types/rcutils_ret.h>
 #include <rcutils/types/uint8_array.h>
-#include <rosidl_dynamic_typesupport/api/dynamic_data.h>
+
 #include <rosidl_dynamic_typesupport/macros.h>
 #include <rosidl_dynamic_typesupport/types.h>
 #include <rosidl_dynamic_typesupport/uchar.h>
