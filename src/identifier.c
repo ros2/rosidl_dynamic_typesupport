@@ -15,3 +15,9 @@
 #include "rosidl_dynamic_typesupport/identifier.h"
 
 const char * const rosidl_dynamic_typesupport_c__identifier = "rosidl_dynamic_typesupport_c";
+
+const char *
+rosidl_get_dynamic_typesupport_identifier(void)
+{
+  return rosidl_dynamic_typesupport_c__identifier;
+}

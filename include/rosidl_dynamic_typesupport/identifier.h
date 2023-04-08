@@ -22,10 +22,16 @@ extern "C"
 {
 #endif
 
-
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 extern const char * const rosidl_dynamic_typesupport_c__identifier;
 
+/// Get the name of the rosidl_dynamic_typesupport_c identifier
+/**
+ * \return Name of rosidl_dynamic_typesupport_c identifier
+ */
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+const char *
+rosidl_get_dynamic_typesupport_identifier(void);
 
 #ifdef __cplusplus
 }

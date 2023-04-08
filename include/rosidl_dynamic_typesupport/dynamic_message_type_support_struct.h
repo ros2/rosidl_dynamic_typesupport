@@ -68,7 +68,25 @@ typedef struct rosidl_dynamic_message_type_support_impl_s
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_message;
 } rosidl_dynamic_message_type_support_impl_t;
 
-/// Init a dynamic message type support handle
+/// Create a dynamic type message typesupport with bound message description
+/**
+ * NOTE: Take note of the ownership rules for the returned struct and the `description` argument!
+ *
+ *
+ * Ownership:
+ *   - The `rosidl_message_type_support_t *` returned from this function has different ownership
+ *     rules compared to the statically allocated `rosidl_message_type_support_t` structs from
+ *     code-generated types!
+ *    - The caller is responsible for deallocating the returned pointer
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ */
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_message_type_support_handle_create(
@@ -76,10 +94,10 @@ rosidl_dynamic_message_type_support_handle_create(
   const rosidl_type_hash_t * type_hash,
   const rosidl_runtime_c__type_description__TypeDescription * type_description,
   const rosidl_runtime_c__type_description__TypeSource__Sequence * type_description_sources,
-  rosidl_message_type_support_t ** ts);
+  rosidl_message_type_support_t ** ts);  // OUT
 
 /// Destroy a rosidl_message_type_support_t obtained with
-/// `rmw_dynamic_message_type_support_handle_create()`, which has dynamically allocated members
+/// `rosidl_dynamic_message_type_support_handle_create()`, which has dynamically allocated members
 ///
 /// NOTE: Using this on a statically allocated typesupport will cause undefined behavior!
 ///       (Static memory will get freed in that case.)
