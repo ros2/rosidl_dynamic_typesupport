@@ -84,6 +84,10 @@ rosidl_dynamic_typesupport_serialization_support_init(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(impl, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(methods, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(serialization_support, RCUTILS_RET_INVALID_ARGUMENT);
 
   if (impl->serialization_library_identifier != methods->serialization_library_identifier) {

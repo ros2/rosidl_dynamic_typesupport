@@ -170,6 +170,10 @@ rosidl_dynamic_typesupport_dynamic_data_loan_value(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(loaned_dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
 
   if (loaned_dynamic_data->impl.handle != NULL) {
@@ -257,6 +261,10 @@ rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
 
   if (dynamic_data->impl.handle != NULL) {
@@ -287,6 +295,10 @@ rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
 
   if (dynamic_data->impl.handle != NULL) {
@@ -317,6 +329,10 @@ rosidl_dynamic_typesupport_dynamic_data_clone(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(other_dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
 
   if (dynamic_data->impl.handle != NULL) {
@@ -838,6 +854,10 @@ rosidl_dynamic_typesupport_dynamic_data_get_complex_value(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
 
   if (value->impl.handle != NULL) {

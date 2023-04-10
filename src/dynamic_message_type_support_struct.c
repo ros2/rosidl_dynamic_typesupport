@@ -37,6 +37,10 @@ rosidl_dynamic_message_type_support_handle_init(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(type_hash, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(type_description, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(ts, RCUTILS_RET_INVALID_ARGUMENT);
 
   // NOTE(methylDragon): Not supported for now
@@ -122,6 +126,10 @@ rosidl_dynamic_message_type_support_handle_impl_init(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(type_hash, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(type_description, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(allocator, RCUTILS_RET_INVALID_ARGUMENT);
+  if (!rcutils_allocator_is_valid(allocator)) {
+    RCUTILS_SET_ERROR_MSG("allocator is invalid");
+    return RCUTILS_RET_INVALID_ARGUMENT;
+  }
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(ts_impl, RCUTILS_RET_INVALID_ARGUMENT);
 
   // NOTE(methylDragon): Not supported for now
