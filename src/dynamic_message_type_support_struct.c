@@ -170,18 +170,36 @@ rosidl_dynamic_message_type_support_handle_impl_init(
 
   ts_impl->serialization_support = *serialization_support;
 
-  // dynamic_message_type
-  ret = rosidl_dynamic_typesupport_dynamic_type_create_from_description(
-    &ts_impl->serialization_support, type_description, &ts_impl->dynamic_message_type);
-  if (ret != RCUTILS_RET_OK) {
+  ts_impl->dynamic_message_type = allocator->zero_allocate(
+    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t), allocator->state);
+  if (ts_impl->dynamic_message_type == NULL) {
     RCUTILS_SET_ERROR_MSG(
+      "Could not allocate dynamic type for rosidl_dynamic_message_type_support_impl_t struct");
+    ret = RCUTILS_RET_BAD_ALLOC;
+    goto fail;
+  }
+
+  ts_impl->dynamic_message = allocator->zero_allocate(
+    1, sizeof(rosidl_dynamic_typesupport_dynamic_data_t), allocator->state);
+  if (ts_impl->dynamic_message == NULL) {
+    RCUTILS_SET_ERROR_MSG(
+      "Could not allocate dynamic data for rosidl_dynamic_message_type_support_impl_t struct");
+    ret = RCUTILS_RET_BAD_ALLOC;
+    goto fail;
+  }
+
+  // dynamic_message_type
+  ret = rosidl_dynamic_typesupport_dynamic_type_init_from_description(
+    &ts_impl->serialization_support, type_description, allocator, ts_impl->dynamic_message_type);
+  if (ret != RCUTILS_RET_OK) {
+    RCUTILS_SET_ERROR_MSG_AND_APPEND_PREV_ERROR(
       "Could not construct dynamic type for rosidl_dynamic_message_type_support_impl_t struct");
     goto fail;
   }
 
   // dynamic_message
-  ret = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(
-    ts_impl->dynamic_message_type, &ts_impl->dynamic_message);
+  ret = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(
+    ts_impl->dynamic_message_type, allocator, ts_impl->dynamic_message);
   if (ret != RCUTILS_RET_OK) {
     RCUTILS_SET_ERROR_MSG_AND_APPEND_PREV_ERROR(
       "Could not construct dynamic data for rosidl_dynamic_message_type_support_impl_t struct");
@@ -210,10 +228,10 @@ rosidl_dynamic_message_type_support_handle_impl_fini(
   rosidl_runtime_c__type_description__TypeSource__Sequence__fini(
     &ts_impl->type_description_sources);
   if (ts_impl->dynamic_message_type) {
-    rosidl_dynamic_typesupport_dynamic_type_destroy(ts_impl->dynamic_message_type);
+    rosidl_dynamic_typesupport_dynamic_type_fini(ts_impl->dynamic_message_type);
   }
   if (ts_impl->dynamic_message) {
-    rosidl_dynamic_typesupport_dynamic_data_destroy(ts_impl->dynamic_message);
+    rosidl_dynamic_typesupport_dynamic_data_fini(ts_impl->dynamic_message);
   }
 
   return RCUTILS_RET_OK;

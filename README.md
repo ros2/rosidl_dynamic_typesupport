@@ -19,7 +19,7 @@ rosidl_dynamic_typesupport_serialization_support_t serialization_support;
 
 // Configure Dynamic Type Builder
 rosidl_dynamic_typesupport_dynamic_type_builder_t * flat_builder =
-  rosidl_dynamic_typesupport_dynamic_type_builder_create(&serialization_support, "flat");
+  rosidl_dynamic_typesupport_dynamic_type_builder_init(&serialization_support, "flat");
 rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_member(flat_builder, 0, "bool_field");
 rosidl_dynamic_typesupport_dynamic_type_builder_add_int32_member(flat_builder, 1, "int32_field");
 rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(flat_builder, 2, "string_field");
@@ -27,11 +27,11 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(flat_builder, 
 // Create Dynamic Type
 rosidl_dynamic_typesupport_dynamic_type_t * flat_type =
   rosidl_dynamic_typesupport_dynamic_type_builder_build(flat_builder);
-rosidl_dynamic_typesupport_dynamic_type_builder_destroy(flat_builder);
+rosidl_dynamic_typesupport_dynamic_type_builder_fini(flat_builder);
 
 // Create Dynamic Data
 rosidl_dynamic_typesupport_dynamic_data_t * flat_data =
-  rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(flat_type);
+  rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(flat_type);
 
 // Dynamic Data Setters
 rosidl_dynamic_typesupport_dynamic_data_set_bool_value(flat_data, 0, true);
@@ -49,7 +49,7 @@ rosidl_dynamic_typesupport_dynamic_data_get_string_value(flat_data, 2, &c);  // 
 
 // Cleanup
 free(c);
-rosidl_dynamic_typesupport_dynamic_data_destroy(flat_data);
+rosidl_dynamic_typesupport_dynamic_data_fini(flat_data);
 
 ```
 
