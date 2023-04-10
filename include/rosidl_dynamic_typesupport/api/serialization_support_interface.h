@@ -27,9 +27,10 @@ extern "C" {
 
 #include <rcutils/types/rcutils_ret.h>
 #include <rcutils/types/uint8_array.h>
-#include <rosidl_dynamic_typesupport/types.h>
-#include <rosidl_dynamic_typesupport/uchar.h>
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
+
+#include "rosidl_dynamic_typesupport/types.h"
+#include "rosidl_dynamic_typesupport/uchar.h"
 
 /// This interface must be adopted by all downstream serialization library implementations
 
@@ -53,12 +54,13 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
    */
 
   // CORE
-  const char * library_identifier;
+  rcutils_allocator_t allocator;
+  const char * serialization_library_identifier;
 
-  rcutils_ret_t (* serialization_support_impl_destroy)(
+  rcutils_ret_t (* serialization_support_impl_fini)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * impl);
 
-  rcutils_ret_t (* serialization_support_interface_destroy)(
+  rcutils_ret_t (* serialization_support_interface_fini)(
     rosidl_dynamic_typesupport_serialization_support_interface_t * methods);
 
   // ===============================================================================================
@@ -1382,6 +1384,9 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rosidl_dynamic_typesupport_member_id_t * out_id);  // OUT
 };
 
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_serialization_support_interface_t
+rosidl_dynamic_typesupport_get_zero_initialized_serialization_support_interface(void);
 
 #ifdef __cplusplus
 }

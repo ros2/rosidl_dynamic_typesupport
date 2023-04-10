@@ -24,10 +24,34 @@ extern "C" {
 
 #include <rcutils/types/rcutils_ret.h>
 #include <rcutils/types/uint8_array.h>
-#include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
-#include <rosidl_dynamic_typesupport/visibility_control.h>
-#include <rosidl_dynamic_typesupport/uchar.h>
 
+#include "rosidl_dynamic_typesupport/api/serialization_support.h"
+#include "rosidl_dynamic_typesupport/api/serialization_support_interface.h"
+#include "rosidl_dynamic_typesupport/visibility_control.h"
+#include "rosidl_dynamic_typesupport/types.h"
+#include "rosidl_dynamic_typesupport/uchar.h"
+
+// Dynamic Data Impl
+struct rosidl_dynamic_typesupport_dynamic_data_impl_s
+{
+  void * handle;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_data_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data_impl(void);
+
+// Dynamic Data
+struct rosidl_dynamic_typesupport_dynamic_data_s
+{
+  rosidl_dynamic_typesupport_dynamic_data_impl_t * impl;
+  // !!! Lifetime is NOT managed by this struct
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_data_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_data(void);
 
 // ===============================================================================================
 // DYNAMIC DATA

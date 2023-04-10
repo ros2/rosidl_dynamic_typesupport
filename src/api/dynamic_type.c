@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <rosidl_dynamic_typesupport/api/dynamic_type.h>
+#include "rosidl_dynamic_typesupport/api/dynamic_type.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -20,9 +20,6 @@
 #include <rcutils/error_handling.h>
 #include <rcutils/logging_macros.h>
 #include <rcutils/types/rcutils_ret.h>
-
-#include <rosidl_dynamic_typesupport/macros.h>
-#include <rosidl_dynamic_typesupport/types.h>
 
 #include <rosidl_runtime_c/type_description/field__functions.h>
 #include <rosidl_runtime_c/type_description/field__struct.h>
@@ -34,10 +31,38 @@
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
 #include <rosidl_runtime_c/type_description_utils.h>
 
+#include "rosidl_dynamic_typesupport/api/serialization_support.h"
+#include "rosidl_dynamic_typesupport/macros.h"
+#include "rosidl_dynamic_typesupport/types.h"
+
 
 // =================================================================================================
 // DYNAMIC TYPE
 // =================================================================================================
+rosidl_dynamic_typesupport_dynamic_type_builder_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder_impl(void)
+{
+  return (rosidl_dynamic_typesupport_dynamic_type_builder_impl_t) {0};  // NOLINT
+}
+
+rosidl_dynamic_typesupport_dynamic_type_builder_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder(void)
+{
+  return (rosidl_dynamic_typesupport_dynamic_type_builder_t) {0, 0};  // NOLINT
+}
+
+rosidl_dynamic_typesupport_dynamic_type_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_impl(void)
+{
+  return (rosidl_dynamic_typesupport_dynamic_type_impl_t) {0};  // NOLINT
+}
+
+rosidl_dynamic_typesupport_dynamic_type_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type(void)
+{
+  return (rosidl_dynamic_typesupport_dynamic_type_t) {0, 0};  // NOLINT
+}
+
 
 // DYNAMIC TYPE UTILS ==============================================================================
 rcutils_ret_t
@@ -50,14 +75,14 @@ rosidl_dynamic_typesupport_dynamic_type_equals(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(other, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(equals, RCUTILS_RET_INVALID_ARGUMENT);
 
-  if (dynamic_type->serialization_support->library_identifier !=
-    other->serialization_support->library_identifier)
+  if (dynamic_type->serialization_support->serialization_library_identifier !=
+    other->serialization_support->serialization_library_identifier)
   {
     RCUTILS_SET_ERROR_MSG("Library identifiers for dynamic types do not match");
     return RCUTILS_RET_INVALID_ARGUMENT;
   }
-  return (dynamic_type->serialization_support->methods->dynamic_type_equals)(
-    dynamic_type->serialization_support->impl, dynamic_type->impl, other->impl, equals);
+  return (dynamic_type->serialization_support->methods.dynamic_type_equals)(
+    &dynamic_type->serialization_support->impl, dynamic_type->impl, other->impl, equals);
 }
 
 
@@ -67,8 +92,8 @@ rosidl_dynamic_typesupport_dynamic_type_get_member_count(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(member_count, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type->serialization_support->methods->dynamic_type_get_member_count)(
-    dynamic_type->serialization_support->impl, dynamic_type->impl, member_count);
+  return (dynamic_type->serialization_support->methods.dynamic_type_get_member_count)(
+    &dynamic_type->serialization_support->impl, dynamic_type->impl, member_count);
 }
 
 
@@ -85,7 +110,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_create(
 
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_type_builder_t * out = allocator.zero_allocate(
-    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_builder_t), &allocator.state);
+    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_builder_t), allocator.state);
   if (!out) {
     RCUTILS_SET_ERROR_MSG("Could not allocate dynamic type builder");
     return RCUTILS_RET_BAD_ALLOC;
@@ -93,8 +118,8 @@ rosidl_dynamic_typesupport_dynamic_type_builder_create(
 
   out->serialization_support = serialization_support;
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
-    (serialization_support->methods->dynamic_type_builder_create)(
-      serialization_support->impl, name, name_length, &out->impl),
+    (serialization_support->methods.dynamic_type_builder_create)(
+      &serialization_support->impl, name, name_length, &out->impl),
     allocator.deallocate(out, allocator.state)  // Cleanup
   );
   *dynamic_type_builder = out;
@@ -112,7 +137,7 @@ rosidl_dynamic_typesupport_dynamic_type_builder_clone(
 
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_type_builder_t * out = allocator.zero_allocate(
-    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_builder_t), &allocator.state);
+    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_builder_t), allocator.state);
   if (!out) {
     RCUTILS_SET_ERROR_MSG("Could not allocate dynamic type builder");
     return RCUTILS_RET_BAD_ALLOC;
@@ -120,8 +145,8 @@ rosidl_dynamic_typesupport_dynamic_type_builder_clone(
 
   out->serialization_support = other->serialization_support;
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
-    (other->serialization_support->methods->dynamic_type_builder_clone)(
-      other->serialization_support->impl, other->impl, &out->impl),
+    (other->serialization_support->methods.dynamic_type_builder_clone)(
+      &other->serialization_support->impl, other->impl, &out->impl),
     allocator.deallocate(out, allocator.state)  // Cleanup
   );
   *dynamic_type_builder = out;
@@ -801,11 +826,11 @@ rosidl_dynamic_typesupport_dynamic_type_builder_destroy(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (dynamic_type_builder->serialization_support->methods->dynamic_type_builder_destroy)(
-      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl)
+    (dynamic_type_builder->serialization_support->methods.dynamic_type_builder_destroy)(
+      &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl)
   );
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
-  allocator.deallocate(dynamic_type_builder, &allocator.state);
+  allocator.deallocate(dynamic_type_builder, allocator.state);
   return RCUTILS_RET_OK;
 }
 
@@ -820,7 +845,7 @@ rosidl_dynamic_typesupport_dynamic_type_create_from_dynamic_type_builder(
 
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_type_t * out = allocator.zero_allocate(
-    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t), &allocator.state);
+    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t), allocator.state);
   if (!out) {
     RCUTILS_SET_ERROR_MSG("Could not allocate dynamic type");
     return RCUTILS_RET_BAD_ALLOC;
@@ -829,8 +854,8 @@ rosidl_dynamic_typesupport_dynamic_type_create_from_dynamic_type_builder(
   out->serialization_support = dynamic_type_builder->serialization_support;
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
     (dynamic_type_builder->serialization_support->methods
-    ->dynamic_type_create_from_dynamic_type_builder)(
-      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, &out->impl),
+    .dynamic_type_create_from_dynamic_type_builder)(
+      &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, &out->impl),
     allocator.deallocate(out, allocator.state)  // Cleanup
   );
   *dynamic_type = out;
@@ -876,7 +901,7 @@ rosidl_dynamic_typesupport_dynamic_type_clone(
 
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rosidl_dynamic_typesupport_dynamic_type_t * out = allocator.zero_allocate(
-    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t), &allocator.state);
+    1, sizeof(rosidl_dynamic_typesupport_dynamic_type_t), allocator.state);
   if (!out) {
     RCUTILS_SET_ERROR_MSG("Could not allocate dynamic type");
     return RCUTILS_RET_BAD_ALLOC;
@@ -884,8 +909,8 @@ rosidl_dynamic_typesupport_dynamic_type_clone(
 
   out->serialization_support = other->serialization_support;
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
-    (other->serialization_support->methods->dynamic_type_clone)(
-      other->serialization_support->impl, other->impl, &out->impl),
+    (other->serialization_support->methods.dynamic_type_clone)(
+      &other->serialization_support->impl, other->impl, &out->impl),
     allocator.deallocate(out, allocator.state)  // Cleanup
   );
   *dynamic_type = out;
@@ -899,11 +924,11 @@ rosidl_dynamic_typesupport_dynamic_type_destroy(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type, RCUTILS_RET_INVALID_ARGUMENT);
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK(
-    (dynamic_type->serialization_support->methods->dynamic_type_destroy)(
-      dynamic_type->serialization_support->impl, dynamic_type->impl);
+    (dynamic_type->serialization_support->methods.dynamic_type_destroy)(
+      &dynamic_type->serialization_support->impl, dynamic_type->impl);
   );
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
-  allocator.deallocate(dynamic_type, &allocator.state);
+  allocator.deallocate(dynamic_type, allocator.state);
   return RCUTILS_RET_OK;
 }
 
@@ -916,8 +941,8 @@ rosidl_dynamic_typesupport_dynamic_type_get_name(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type->serialization_support->methods->dynamic_type_get_name)(
-    dynamic_type->serialization_support->impl, dynamic_type->impl, name, name_length);
+  return (dynamic_type->serialization_support->methods.dynamic_type_get_name)(
+    &dynamic_type->serialization_support->impl, dynamic_type->impl, name, name_length);
 }
 
 
@@ -929,8 +954,8 @@ rosidl_dynamic_typesupport_dynamic_type_builder_get_name(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->dynamic_type_builder_get_name)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+  return (dynamic_type_builder->serialization_support->methods.dynamic_type_builder_get_name)(
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     name, name_length);
 }
 
@@ -942,8 +967,8 @@ rosidl_dynamic_typesupport_dynamic_type_builder_set_name(
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->dynamic_type_builder_set_name)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+  return (dynamic_type_builder->serialization_support->methods.dynamic_type_builder_set_name)(
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     name, name_length);
 }
 
@@ -961,8 +986,8 @@ rosidl_dynamic_typesupport_dynamic_type_builder_set_name(
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT); \
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT); \
     return (dynamic_type_builder->serialization_support->methods \
-           ->dynamic_type_builder_add_ ## FunctionT ## _member)( \
-      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, \
+           .dynamic_type_builder_add_ ## FunctionT ## _member)( \
+      &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, id, \
       name, name_length, \
       default_value, default_value_length); \
   }
@@ -999,9 +1024,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_string_member)(
-    dynamic_type_builder->serialization_support->impl,
+    &dynamic_type_builder->serialization_support->impl,
     dynamic_type_builder->impl,
     id,
     name, name_length,
@@ -1021,9 +1046,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_wstring_member)(
-    dynamic_type_builder->serialization_support->impl,
+    &dynamic_type_builder->serialization_support->impl,
     dynamic_type_builder->impl,
     id,
     name, name_length,
@@ -1043,9 +1068,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_string_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_string_member)(
-    dynamic_type_builder->serialization_support->impl,
+    &dynamic_type_builder->serialization_support->impl,
     dynamic_type_builder->impl,
     id,
     name, name_length,
@@ -1065,9 +1090,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_wstring_member)(
-    dynamic_type_builder->serialization_support->impl,
+    &dynamic_type_builder->serialization_support->impl,
     dynamic_type_builder->impl,
     id,
     name, name_length,
@@ -1089,9 +1114,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_member(
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT); \
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT); \
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT); \
-    return (dynamic_type_builder->serialization_support->methods-> \
+    return (dynamic_type_builder->serialization_support->methods. \
            dynamic_type_builder_add_ ## FunctionT ## _array_member)( \
-      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
+      &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
       id, \
       name, name_length, \
       default_value, default_value_length, \
@@ -1130,9 +1155,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_array_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_string_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1151,9 +1176,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_array_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_wstring_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1172,9 +1197,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_string_array_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_string_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1193,9 +1218,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_array_member
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_wstring_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1215,9 +1240,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_array_member
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT); \
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT); \
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT); \
-    return (dynamic_type_builder->serialization_support->methods-> \
+    return (dynamic_type_builder->serialization_support->methods. \
            dynamic_type_builder_add_ ## FunctionT ## _unbounded_sequence_member)( \
-      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
+      &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
       id, \
       name, name_length, \
       default_value, default_value_length); \
@@ -1255,9 +1280,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_unbounded_seque
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_string_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1276,9 +1301,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_unbounded_sequ
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_wstring_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1297,9 +1322,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_string_unbounded_seq
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_string_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1318,9 +1343,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_unbounded_se
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_wstring_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1341,9 +1366,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_unbounded_se
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT); \
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT); \
     RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT); \
-    return (dynamic_type_builder->serialization_support->methods-> \
+    return (dynamic_type_builder->serialization_support->methods. \
            dynamic_type_builder_add_ ## FunctionT ## _bounded_sequence_member)( \
-      dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
+      &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl, \
       id, \
       name, name_length, \
       default_value, default_value_length, \
@@ -1382,9 +1407,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_string_bounded_sequenc
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_string_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1403,9 +1428,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_fixed_wstring_bounded_sequen
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_fixed_wstring_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1424,9 +1449,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_string_bounded_seque
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_string_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1445,9 +1470,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_bounded_wstring_bounded_sequ
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_type_builder, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_bounded_wstring_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1468,9 +1493,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1490,9 +1515,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_array_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1512,9 +1537,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_m
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_unbounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1534,9 +1559,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_mem
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_bounded_sequence_member)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1556,9 +1581,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member_builder(
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct_builder, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_member_builder)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1578,9 +1603,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member_builder
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct_builder, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_array_member_builder)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1600,9 +1625,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_m
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct_builder, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_unbounded_sequence_member_builder)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,
@@ -1622,9 +1647,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_mem
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(name, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(default_value, RCUTILS_RET_INVALID_ARGUMENT);
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(nested_struct_builder, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_type_builder->serialization_support->methods->
+  return (dynamic_type_builder->serialization_support->methods.
          dynamic_type_builder_add_complex_bounded_sequence_member_builder)(
-    dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
+    &dynamic_type_builder->serialization_support->impl, dynamic_type_builder->impl,
     id,
     name, name_length,
     default_value, default_value_length,

@@ -24,9 +24,54 @@ extern "C" {
 
 #include <rcutils/types/rcutils_ret.h>
 
-#include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
-#include <rosidl_dynamic_typesupport/visibility_control.h>
+#include "rosidl_dynamic_typesupport/api/serialization_support.h"
+#include "rosidl_dynamic_typesupport/api/serialization_support_interface.h"
+#include "rosidl_dynamic_typesupport/types.h"
+#include "rosidl_dynamic_typesupport/visibility_control.h"
 
+// Dynamic Type Builder Impl
+struct rosidl_dynamic_typesupport_dynamic_type_builder_impl_s
+{
+  void * handle;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_builder_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder_impl(void);
+
+// Dynamic Type Builder
+struct rosidl_dynamic_typesupport_dynamic_type_builder_s
+{
+  rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * impl;
+  // !!! Lifetime is NOT managed by this struct
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_builder_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder(void);
+
+// Dynamic Type Impl
+struct rosidl_dynamic_typesupport_dynamic_type_impl_s
+{
+  void * handle;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_impl(void);
+
+// Dynamic Type
+struct rosidl_dynamic_typesupport_dynamic_type_s
+{
+  rosidl_dynamic_typesupport_dynamic_type_impl_t * impl;
+  // !!! Lifetime is NOT managed by this struct
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type(void);
 
 // =================================================================================================
 // DYNAMIC TYPE

@@ -22,8 +22,6 @@
 extern "C" {
 #endif
 
-#include <rosidl_dynamic_typesupport/types.h>
-
 #include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_data.h>
 #include <rosidl_dynamic_typesupport/api/dynamic_type.h>
@@ -31,6 +29,40 @@ extern "C" {
 
 #include <rcutils/types/rcutils_ret.h>
 
+#include "rosidl_dynamic_typesupport/types.h"
+
+/// Serialization Support Impl
+/// For anything necessary or useful for the operation of the serialization lib
+/// (e.g. singleton dynamic type and dynamic data factories)
+struct rosidl_dynamic_typesupport_serialization_support_impl_s
+{
+  rcutils_allocator_t allocator;
+  const char * serialization_library_identifier;
+  void * handle;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_serialization_support_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_serialization_support_impl(void);
+
+/// Serialization Support
+/// This is the main structure that encompasses:
+///   - impl - The library-specific objects or implementation details
+///   - methods - The shared serialization support interface, populated with serialization
+///     library-specific function pointers
+struct rosidl_dynamic_typesupport_serialization_support_s
+{
+  rcutils_allocator_t allocator;
+  const char * serialization_library_identifier;
+
+  rosidl_dynamic_typesupport_serialization_support_impl_t impl;
+  // Can't call it `interface` because it's a reserved term in some Windows versions...
+  rosidl_dynamic_typesupport_serialization_support_interface_t methods;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_serialization_support_t
+rosidl_dynamic_typesupport_get_zero_initialized_serialization_support(void);
 
 // CORE ============================================================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
@@ -40,16 +72,16 @@ rosidl_dynamic_typesupport_serialization_support_get_library_identifier(
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_serialization_support_create(
+rosidl_dynamic_typesupport_serialization_support_init(
   rosidl_dynamic_typesupport_serialization_support_impl_t * impl,
   rosidl_dynamic_typesupport_serialization_support_interface_t * methods,
-  rosidl_dynamic_typesupport_serialization_support_t ** serialization_support);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_serialization_support_destroy(
+rosidl_dynamic_typesupport_serialization_support_fini(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support);
-
 
 #ifdef __cplusplus
 }

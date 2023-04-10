@@ -10,13 +10,16 @@ Properly implemented, a user should be able to, given a serialized buffer, the s
 
 ```cpp
 // Init Serialization Support (in this case, using FastRTPS)
-rosidl_dynamic_typesupport_serialization_support_t * serialization_support =
-  rosidl_dynamic_typesupport_serialization_support_create(
-    rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
-    rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
+rosidl_dynamic_typesupport_serialization_support_t serialization_support;
+  rosidl_dynamic_typesupport_serialization_support_init(
+    rosidl_dynamic_typesupport_fastrtps_init_serialization_support_impl(),
+    rosidl_dynamic_typesupport_fastrtps_init_serialization_support_interface(),
+    rcutils_get_default_allocator(),
+    &serialization_support);
 
 // Configure Dynamic Type Builder
-rosidl_dynamic_typesupport_dynamic_type_builder_t * flat_builder = rosidl_dynamic_typesupport_dynamic_type_builder_create(serialization_support, "flat");
+rosidl_dynamic_typesupport_dynamic_type_builder_t * flat_builder =
+  rosidl_dynamic_typesupport_dynamic_type_builder_create(&serialization_support, "flat");
 rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_member(flat_builder, 0, "bool_field");
 rosidl_dynamic_typesupport_dynamic_type_builder_add_int32_member(flat_builder, 1, "int32_field");
 rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(flat_builder, 2, "string_field");

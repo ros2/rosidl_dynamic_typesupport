@@ -105,7 +105,7 @@ rosidl_dynamic_message_type_support_handle_fini(rosidl_message_type_support_t * 
     return ret;
   }
 
-  allocator.deallocate((void *)ts->data, &allocator.state);
+  allocator.deallocate((void *)ts->data, allocator.state);
   return RCUTILS_RET_OK;
 }
 
@@ -168,11 +168,11 @@ rosidl_dynamic_message_type_support_handle_impl_init(
     }
   }
 
-  ts_impl->serialization_support = serialization_support;
+  ts_impl->serialization_support = *serialization_support;
 
   // dynamic_message_type
   ret = rosidl_dynamic_typesupport_dynamic_type_create_from_description(
-    ts_impl->serialization_support, type_description, &ts_impl->dynamic_message_type);
+    &ts_impl->serialization_support, type_description, &ts_impl->dynamic_message_type);
   if (ret != RCUTILS_RET_OK) {
     RCUTILS_SET_ERROR_MSG(
       "Could not construct dynamic type for rosidl_dynamic_message_type_support_impl_t struct");
@@ -203,6 +203,8 @@ rosidl_dynamic_message_type_support_handle_impl_fini(
   rosidl_dynamic_message_type_support_impl_t * ts_impl)
 {
   RCUTILS_CHECK_ARGUMENT_FOR_NULL(ts_impl, RCUTILS_RET_INVALID_ARGUMENT);
+
+  rosidl_dynamic_typesupport_serialization_support_fini(&ts_impl->serialization_support);
 
   rosidl_runtime_c__type_description__TypeDescription__fini(&ts_impl->type_description);
   rosidl_runtime_c__type_description__TypeSource__Sequence__fini(

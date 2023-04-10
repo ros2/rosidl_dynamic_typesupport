@@ -25,6 +25,8 @@ extern "C"
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
 #include <rosidl_runtime_c/type_description/type_source__struct.h>
 
+#include "rosidl_dynamic_typesupport/api/dynamic_type.h"
+#include "rosidl_dynamic_typesupport/api/dynamic_data.h"
 #include "rosidl_dynamic_typesupport/api/serialization_support.h"
 #include "rosidl_dynamic_typesupport/identifier.h"
 #include "rosidl_dynamic_typesupport/types.h"
@@ -56,7 +58,7 @@ typedef struct rosidl_dynamic_message_type_support_impl_s
   // Unused for now, but placed here just in case
   rosidl_runtime_c__type_description__TypeSource__Sequence type_description_sources;
 
-  rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+  rosidl_dynamic_typesupport_serialization_support_t serialization_support;
 
   // The dynamic_message_type allows us to do a one time alloc and reuse it for subscription
   // creation and data creation
@@ -105,7 +107,7 @@ ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_message_type_support_handle_fini(rosidl_message_type_support_t * ts);
 
-/// Initialized a `rosidl_dynamic_message_type_support_impl_t` with bound message description
+/// Initialized a `rosidl_dynamic_message_type_support_impl_t` with encapsulated message description
 /**
  * The `type_hash`, `type_description`, `type_description_sources`, and `allocator` arguments are
  * copied.
