@@ -26,7 +26,7 @@ extern "C" {
 #    define INCLUDED_UCHAR 1
 #  endif
 #endif
-#if !defined(INCLUDED_UCHAR)
+#if !defined(INCLUDED_UCHAR) && __cplusplus <= 199711L
 #  include <stdint.h>
 typedef uint_least16_t char16_t;
 #endif
