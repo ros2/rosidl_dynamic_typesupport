@@ -22,7 +22,6 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
 # DEPS =============================================================================================
-find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
 find_package(rcutils REQUIRED)
 find_package(rosidl_runtime_c REQUIRED)
@@ -65,8 +64,7 @@ install(
 )
 
 ament_export_targets(${PROJECT_NAME}-export HAS_LIBRARY_TARGET)
-ament_export_dependencies(ament_cmake)
-ament_export_dependencies(ament_cmake_ros)
+ament_export_dependencies(rcutils)
 ament_export_dependencies(rosidl_runtime_c)
 
 ament_package()
