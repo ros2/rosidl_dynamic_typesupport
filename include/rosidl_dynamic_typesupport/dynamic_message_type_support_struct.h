@@ -25,6 +25,8 @@ extern "C"
 #include <rosidl_runtime_c/type_description/type_description__struct.h>
 #include <rosidl_runtime_c/type_description/type_source__struct.h>
 
+#include "rosidl_dynamic_typesupport/api/dynamic_type.h"
+#include "rosidl_dynamic_typesupport/api/dynamic_data.h"
 #include "rosidl_dynamic_typesupport/api/serialization_support.h"
 #include "rosidl_dynamic_typesupport/identifier.h"
 #include "rosidl_dynamic_typesupport/types.h"
@@ -48,36 +50,35 @@ extern "C"
 // outlives those downstream classes.
 typedef struct rosidl_dynamic_message_type_support_impl_s
 {
-  rosidl_type_hash_t * type_hash;
-  rosidl_runtime_c__type_description__TypeDescription * type_description;
+  rcutils_allocator_t allocator;
 
-  // NOTE(methylDragon): Unused for now, but placed here just in case
-  rosidl_runtime_c__type_description__TypeSource__Sequence * type_description_sources;
-  rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+  rosidl_type_hash_t type_hash;
+  rosidl_runtime_c__type_description__TypeDescription type_description;
 
-  // NOTE(methylDragon): I'm unsure if these are necessary. Though I think they are convenient.
-  //                     dynamic_message_type moreso than dynamic_message.
-  //
-  //                     I'd err on including them to be able to support more middlewares
-  //
-  //                     The dynamic_message_type allows us to do a one time alloc and reuse it for
-  //                     subscription creation and data creation
-  //                     The dynamic_message allows us to either reuse it, or clone it, but it's
-  //                     technically redundant because data can be created from dynamic_message_type
+  // Unused for now, but placed here just in case
+  rosidl_runtime_c__type_description__TypeSource__Sequence type_description_sources;
+
+  rosidl_dynamic_typesupport_serialization_support_t serialization_support;
+
+  // The dynamic_message_type allows us to do a one time alloc and reuse it for subscription
+  // creation and data creation
   rosidl_dynamic_typesupport_dynamic_type_t * dynamic_message_type;
+
+  // The dynamic_message allows us to either reuse it, or clone it, but it's technically redundant
+  // because data can be created from dynamic_message_type
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_message;
 } rosidl_dynamic_message_type_support_impl_t;
 
-/// Create a dynamic type message typesupport with bound message description
+/// Initialize a dynamic type message type support with encapsulated message description
 /**
- * NOTE: Take note of the ownership rules for the returned struct and the `description` argument!
+ * Take note of the ownership rules for the returned struct and the `description` argument.
  *
+ * The `rosidl_message_type_support_t *` returned from this function has different ownership rules
+ * compared to the statically allocated `rosidl_message_type_support_t` structs from code-generated
+ * types.
  *
- * Ownership:
- *   - The `rosidl_message_type_support_t *` returned from this function has different ownership
- *     rules compared to the statically allocated `rosidl_message_type_support_t` structs from
- *     code-generated types!
- *    - The caller is responsible for deallocating the returned pointer
+ * The `type_hash`, `type_description`, `type_description_sources`, and `allocator` arguments are
+ * copied.
  *
  * <hr>
  * Attribute          | Adherence
@@ -89,21 +90,51 @@ typedef struct rosidl_dynamic_message_type_support_impl_s
  */
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_message_type_support_handle_create(
+rosidl_dynamic_message_type_support_handle_init(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
   const rosidl_type_hash_t * type_hash,
   const rosidl_runtime_c__type_description__TypeDescription * type_description,
   const rosidl_runtime_c__type_description__TypeSource__Sequence * type_description_sources,
-  rosidl_message_type_support_t ** ts);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_message_type_support_t * ts);  // OUT
 
-/// Destroy a rosidl_message_type_support_t obtained with
-/// `rosidl_dynamic_message_type_support_handle_create()`, which has dynamically allocated members
+/// Finalize a rosidl_message_type_support_t obtained with
+/// `rosidl_dynamic_message_type_support_handle_init()`, which has dynamically allocated members
 ///
 /// NOTE: Using this on a statically allocated typesupport will cause undefined behavior!
 ///       (Static memory will get freed in that case.)
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_message_type_support_handle_destroy(rosidl_message_type_support_t * ts);
+rosidl_dynamic_message_type_support_handle_fini(rosidl_message_type_support_t * ts);
+
+/// Initialized a `rosidl_dynamic_message_type_support_impl_t` with encapsulated message description
+/**
+ * The `type_hash`, `type_description`, `type_description_sources`, and `allocator` arguments are
+ * copied.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ */
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_message_type_support_handle_impl_init(
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
+  const rosidl_type_hash_t * type_hash,
+  const rosidl_runtime_c__type_description__TypeDescription * type_description,
+  const rosidl_runtime_c__type_description__TypeSource__Sequence * type_description_sources,
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_message_type_support_impl_t * ts_impl);  // OUT
+
+/// Finalize a `rosidl_dynamic_message_type_support_impl_t`
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_message_type_support_handle_impl_fini(
+  rosidl_dynamic_message_type_support_impl_t * ts_impl);
 
 /// Return type_hash member in rosidl_dynamic_message_type_support_impl_t
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC

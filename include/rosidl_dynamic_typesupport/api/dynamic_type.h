@@ -22,11 +22,61 @@
 extern "C" {
 #endif
 
+#include <rcutils/allocator.h>
 #include <rcutils/types/rcutils_ret.h>
 
-#include <rosidl_dynamic_typesupport/api/serialization_support_interface.h>
-#include <rosidl_dynamic_typesupport/visibility_control.h>
+#include "rosidl_dynamic_typesupport/api/serialization_support.h"
+#include "rosidl_dynamic_typesupport/api/serialization_support_interface.h"
+#include "rosidl_dynamic_typesupport/types.h"
+#include "rosidl_dynamic_typesupport/visibility_control.h"
 
+// Dynamic Type Builder Impl
+struct rosidl_dynamic_typesupport_dynamic_type_builder_impl_s
+{
+  rcutils_allocator_t allocator;
+  void * handle;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_builder_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder_impl(void);
+
+// Dynamic Type Builder
+struct rosidl_dynamic_typesupport_dynamic_type_builder_s
+{
+  rcutils_allocator_t allocator;
+  rosidl_dynamic_typesupport_dynamic_type_builder_impl_t impl;
+  // !!! Lifetime is NOT managed by this struct
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_builder_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder(void);
+
+// Dynamic Type Impl
+struct rosidl_dynamic_typesupport_dynamic_type_impl_s
+{
+  rcutils_allocator_t allocator;
+  void * handle;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_impl_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_impl(void);
+
+// Dynamic Type
+struct rosidl_dynamic_typesupport_dynamic_type_s
+{
+  rcutils_allocator_t allocator;
+  rosidl_dynamic_typesupport_dynamic_type_impl_t impl;
+  // !!! Lifetime is NOT managed by this struct
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+};
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rosidl_dynamic_typesupport_dynamic_type_t
+rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type(void);
 
 // =================================================================================================
 // DYNAMIC TYPE
@@ -50,23 +100,31 @@ rosidl_dynamic_typesupport_dynamic_type_get_member_count(
 // DYNAMIC TYPE CONSTRUCTION =======================================================================
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_builder_create(
+rosidl_dynamic_typesupport_dynamic_type_builder_init(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support, const char * name,
   size_t name_length,
-  rosidl_dynamic_typesupport_dynamic_type_builder_t ** dynamic_type_builder);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_type_builder_clone(
   const rosidl_dynamic_typesupport_dynamic_type_builder_t * other,
-  rosidl_dynamic_typesupport_dynamic_type_builder_t ** dynamic_type_builder);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_builder_create_from_description(
+rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
   const rosidl_runtime_c__type_description__TypeDescription * description,
-  rosidl_dynamic_typesupport_dynamic_type_builder_t ** dynamic_type_builder);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);  // OUT
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_type_builder_fini(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
@@ -75,22 +133,30 @@ rosidl_dynamic_typesupport_dynamic_type_builder_destroy(
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_create_from_dynamic_type_builder(
+rosidl_dynamic_typesupport_dynamic_type_init_from_dynamic_type_builder(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
-  rosidl_dynamic_typesupport_dynamic_type_t ** dynamic_type);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_type_create_from_description(
+rosidl_dynamic_typesupport_dynamic_type_init_from_description(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
   const rosidl_runtime_c__type_description__TypeDescription * description,
-  rosidl_dynamic_typesupport_dynamic_type_t ** dynamic_type);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);  // OUT
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_type_clone(
   const rosidl_dynamic_typesupport_dynamic_type_t * other,
-  rosidl_dynamic_typesupport_dynamic_type_t ** dynamic_type);  // OUT
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);  // OUT
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_type_fini(
+  rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);
 
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
