@@ -188,6 +188,114 @@ rosidl_dynamic_typesupport_dynamic_type_builder_clone(
 }
 
 
+static rcutils_ret_t
+handle_nested_type(
+  rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
+  const rosidl_runtime_c__type_description__TypeDescription * description,
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder,
+  rosidl_runtime_c__type_description__Field * field,
+  size_t field_offset)
+{
+  if (field->type.nested_type_name.data == NULL) {
+    RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
+      "Nested type name from nested field [%s]", field->name.data);
+    return RCUTILS_RET_ERROR;
+  }
+
+  // Create a new type description to pass to the next layer
+  rosidl_runtime_c__type_description__TypeDescription * recurse_desc = NULL;
+  rosidl_runtime_c__type_description__IndividualTypeDescription * recurse_indiv_desc = NULL;
+
+  // NOTE(methylDragon): recurse_indiv_desc borrows from
+  //                     description->referenced_type_descriptions.
+  //                     It is NOT a copy!! Do NOT finalize, modify, or delete it!
+  rcutils_ret_t ret = rosidl_runtime_c_type_description_utils_find_referenced_type_description(
+    &description->referenced_type_descriptions,
+    field->type.nested_type_name.data,
+    &recurse_indiv_desc);
+  if (ret != RCUTILS_RET_OK || recurse_indiv_desc == NULL) {
+    RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
+      "Could not find referenced type description [%s]", field->type.nested_type_name.data);
+    return ret;
+  }
+
+  ret = rosidl_runtime_c_type_description_utils_get_referenced_type_description_as_type_description(
+    &description->referenced_type_descriptions, recurse_indiv_desc, &recurse_desc,
+    true);  // Coerce to valid
+  if (ret != RCUTILS_RET_OK || recurse_desc == NULL) {
+    RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
+      "Could not get referenced type description as full type description [%s]",
+      field->type.nested_type_name.data);
+    if (ret == RCUTILS_RET_OK) {
+      ret = RCUTILS_RET_ERROR;
+    }
+    return ret;
+  }
+
+  // Recurse
+  rosidl_dynamic_typesupport_dynamic_type_builder_t nested_type_builder =
+    rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder();
+  nested_type_builder.serialization_support = serialization_support;
+  nested_type_builder.allocator = *allocator;
+
+  ret = rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
+    serialization_support, recurse_desc, allocator, &nested_type_builder);
+  rosidl_runtime_c__type_description__TypeDescription__destroy(recurse_desc);
+
+  if (ret != RCUTILS_RET_OK) {
+    RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
+      "Could not construct nested type builder for field [%s]", field->name.data);
+    if (ret == RCUTILS_RET_OK) {
+      ret = RCUTILS_RET_ERROR;
+    }
+    return ret;
+  }
+
+  switch (field->type.type_id) {
+    case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE:
+      ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member_builder(
+        dynamic_type_builder, field_offset,
+        field->name.data, field->name.size,
+        field->default_value.data, field->default_value.size,
+        &nested_type_builder);
+      break;
+
+    case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_ARRAY:
+      ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member_builder(
+        dynamic_type_builder, field_offset,
+        field->name.data, field->name.size,
+        field->default_value.data, field->default_value.size,
+        &nested_type_builder, field->type.capacity);
+      break;
+
+    case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE:
+      ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member_builder(  // NOLINT
+        dynamic_type_builder, field_offset,
+        field->name.data, field->name.size,
+        field->default_value.data, field->default_value.size,
+        &nested_type_builder);
+      break;
+
+    case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE:
+      ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member_builder(
+        dynamic_type_builder, field_offset,
+        field->name.data, field->name.size,
+        field->default_value.data, field->default_value.size,
+        &nested_type_builder, field->type.capacity);
+      break;
+
+    default:
+      RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
+        "Invalid field type id: %d !", field->type.type_id);
+      ret = RCUTILS_RET_INVALID_ARGUMENT;
+      break;
+  }
+  rosidl_dynamic_typesupport_dynamic_type_builder_fini(&nested_type_builder);
+  return ret;
+}
+
+
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support,
@@ -736,108 +844,9 @@ rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
       case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_ARRAY:
       case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE:
       case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE:
-        {
-          if (field->type.nested_type_name.data == NULL) {
-            RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
-              "Nested type name from nested field [%s]", field->name.data);
-            ret = RCUTILS_RET_ERROR;
-            goto fail;
-          }
-
-          // Create a new type description to pass to the next layer
-          rosidl_runtime_c__type_description__TypeDescription * recurse_desc = NULL;
-          rosidl_runtime_c__type_description__IndividualTypeDescription * recurse_indiv_desc = NULL;
-
-          // NOTE(methylDragon): recurse_indiv_desc borrows from
-          //                     description->referenced_type_descriptions.
-          //                     It is NOT a copy!! Do NOT finalize, modify, or delete it!
-          ret = rosidl_runtime_c_type_description_utils_find_referenced_type_description(
-            &description->referenced_type_descriptions,
-            field->type.nested_type_name.data,
-            &recurse_indiv_desc);
-          if (ret != RCUTILS_RET_OK || recurse_indiv_desc == NULL) {
-            RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
-              "Could not find referenced type description [%s]", field->type.nested_type_name.data);
-            goto fail;
-          }
-
-          /* *INDENT-OFF* */
-          ret = rosidl_runtime_c_type_description_utils_get_referenced_type_description_as_type_description(  // NOLINT
-            &description->referenced_type_descriptions, recurse_indiv_desc, &recurse_desc,
-            true);  // Coerce to valid
-          /* *INDENT-ON* */
-          if (ret != RCUTILS_RET_OK || recurse_desc == NULL) {
-            RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
-              "Could not get referenced type description as full type description [%s]",
-              field->type.nested_type_name.data);
-            if (ret == RCUTILS_RET_OK) {
-              ret = RCUTILS_RET_ERROR;
-            }
-            goto fail;
-          }
-
-          // Recurse
-          rosidl_dynamic_typesupport_dynamic_type_builder_t nested_type_builder =
-            rosidl_dynamic_typesupport_get_zero_initialized_dynamic_type_builder();
-          nested_type_builder.serialization_support = serialization_support;
-          nested_type_builder.allocator = *allocator;
-
-          ret = rosidl_dynamic_typesupport_dynamic_type_builder_init_from_description(
-            serialization_support, recurse_desc, allocator, &nested_type_builder);
-          rosidl_runtime_c__type_description__TypeDescription__destroy(recurse_desc);
-
-          if (ret != RCUTILS_RET_OK) {
-            RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
-              "Could not construct nested type builder for field [%s]", field->name.data);
-            if (ret == RCUTILS_RET_OK) {
-              ret = RCUTILS_RET_ERROR;
-            }
-            rosidl_runtime_c__type_description__TypeDescription__destroy(recurse_desc);
-            goto fail;
-          }
-
-          /* *INDENT-OFF* */
-          switch (field->type.type_id) {
-            case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE:
-              ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member_builder(
-                dynamic_type_builder, i,
-                field->name.data, field->name.size,
-                field->default_value.data, field->default_value.size,
-                &nested_type_builder);
-              break;
-
-            case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_ARRAY:
-              ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_array_member_builder(  // NOLINT
-                dynamic_type_builder, i,
-                field->name.data, field->name.size,
-                field->default_value.data, field->default_value.size,
-                &nested_type_builder, field->type.capacity);
-              break;
-
-            case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_UNBOUNDED_SEQUENCE:
-              ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_unbounded_sequence_member_builder(  // NOLINT
-                dynamic_type_builder, i,
-                field->name.data, field->name.size,
-                field->default_value.data, field->default_value.size,
-                &nested_type_builder);
-              break;
-
-            case ROSIDL_DYNAMIC_TYPESUPPORT_FIELD_TYPE_NESTED_TYPE_BOUNDED_SEQUENCE:
-              ret = rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_bounded_sequence_member_builder(  // NOLINT
-                dynamic_type_builder, i,
-                field->name.data, field->name.size,
-                field->default_value.data, field->default_value.size,
-                &nested_type_builder, field->type.capacity);
-              break;
-
-            default:
-              RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(
-                "Invalid field type id: %d !", field->type.type_id);
-              ret = RCUTILS_RET_INVALID_ARGUMENT;
-              break;
-          }
-          /* *INDENT-ON* */
-          ret = rosidl_dynamic_typesupport_dynamic_type_builder_fini(&nested_type_builder);
+        ret = handle_nested_type(serialization_support, description, allocator, dynamic_type_builder, field, i);
+        if (ret != RCUTILS_RET_OK) {
+          goto fail;  // error already set
         }
         break;
 
