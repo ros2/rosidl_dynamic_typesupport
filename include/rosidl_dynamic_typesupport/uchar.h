@@ -22,10 +22,12 @@ extern "C" {
 #if defined(__cplusplus) && __cplusplus >= 201103L
 // Nothing to do here, C++11 and beyond have char16_t as a keyword:
 // https://en.cppreference.com/w/cpp/keyword/char16_t
-#elif defined(__has_include) && __has_include(<uchar.h>)
+#elif defined(__has_include)
+#  if __has_include(<uchar.h>)
 // If the compiler has __has_include, and uchar.h exists, include that as it will have char16_t
 // as a typedef.
-#  include <uchar.h>
+#    include <uchar.h>
+#  endif
 #else
 // Otherwise assume that char16_t isn't defined anywhere, and define it ourselves as uint_least16_t.
 #  include <stdint.h>
