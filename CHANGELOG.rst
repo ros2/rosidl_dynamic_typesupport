@@ -2,8 +2,8 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2023-09-07)
+------------------
 * uchar: fix conditional include/typedef (`#10 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/10>`_)
 * uchar: use __has_include(..) on separate line (`#8 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/8>`_)
 * Refactor the handling of nested types. (`#7 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/7>`_)
