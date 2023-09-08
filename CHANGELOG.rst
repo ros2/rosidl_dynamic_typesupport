@@ -2,6 +2,11 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add C++ version check to char16 definition (`#6 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/6>`_)
+* Contributors: Antonio Cuadros
+
 0.0.3 (2023-04-12)
 ------------------
 * Fix up the exports for rosidl_dynamic_typesupport. (`#5 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/5>`_)
