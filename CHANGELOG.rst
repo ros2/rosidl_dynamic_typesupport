@@ -2,8 +2,8 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.5 (2023-11-17)
+------------------
 * uchar: use __has_include(..) on separate line (`#9 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/9>`_)
 * Contributors: G.A. vd. Hoorn
 
