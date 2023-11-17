@@ -2,6 +2,11 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* uchar: use __has_include(..) on separate line (`#9 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/9>`_)
+* Contributors: G.A. vd. Hoorn
+
 0.0.4 (2023-09-08)
 ------------------
 * Add C++ version check to char16 definition (`#6 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/6>`_)
