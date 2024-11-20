@@ -2,6 +2,11 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Drop support for long double/float128. (`#12 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/12>`_)
+* Contributors: Chris Lalancette
+
 0.2.0 (2024-04-26)
 ------------------
 
