@@ -582,6 +582,40 @@ rosidl_dynamic_typesupport_dynamic_data_insert_bounded_wstring_value(
 // The user is expected to allocate the '** value' outparam outside
 // This function will then reassign the '** value''s 'serialization_support' member to match the
 // input's
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_get_nested_data(
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id,
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_data_t * value);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_set_nested_data(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id, rosidl_dynamic_typesupport_dynamic_data_t * value);
+
+// This deep copies the passed data
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_insert_nested_data_copy(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  const rosidl_dynamic_typesupport_dynamic_data_t * value,
+  rosidl_dynamic_typesupport_member_id_t * out_id);
+
+ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_insert_nested_data(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_dynamic_data_t * value,
+  rosidl_dynamic_typesupport_member_id_t * out_id);
+
+/**
+ * \deprecated `rosidl_dynamic_typesupport_dynamic_data_get_complex_value` is deprecated in favor of
+ *   `rosidl_dynamic_typesupport_dynamic_data_get_nested_data`
+ */
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_get_complex_value(
@@ -590,13 +624,20 @@ rosidl_dynamic_typesupport_dynamic_data_get_complex_value(
   rcutils_allocator_t * allocator,
   rosidl_dynamic_typesupport_dynamic_data_t * value);
 
+/**
+ * \deprecated `rosidl_dynamic_typesupport_dynamic_data_set_complex_value` is deprecated in favor of
+ *   `rosidl_dynamic_typesupport_dynamic_data_set_nested_data`
+ */
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_set_complex_value(
   rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id, rosidl_dynamic_typesupport_dynamic_data_t * value);
 
-// This deep copies the passed data
+/**
+ * \deprecated `rosidl_dynamic_typesupport_dynamic_data_insert_complex_value_copy` is deprecated in
+ *   favor of `rosidl_dynamic_typesupport_dynamic_data_insert_nested_data_copy`
+ */
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_complex_value_copy(
@@ -604,6 +645,10 @@ rosidl_dynamic_typesupport_dynamic_data_insert_complex_value_copy(
   const rosidl_dynamic_typesupport_dynamic_data_t * value,
   rosidl_dynamic_typesupport_member_id_t * out_id);
 
+/**
+ * \deprecated `rosidl_dynamic_typesupport_dynamic_data_insert_complex_value` is deprecated in favor of
+ *   `rosidl_dynamic_typesupport_dynamic_data_insert_nested_data`
+ */
 ROSIDL_DYNAMIC_TYPESUPPORT_PUBLIC
 rcutils_ret_t
 rosidl_dynamic_typesupport_dynamic_data_insert_complex_value(
