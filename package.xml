@@ -9,7 +9,8 @@
   <license>Apache License 2.0</license>
   <author email="brandon@openrobotics.org">Brandon Ong</author>
 
-  <buildtool_depend>ament_cmake_ros</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros_core</buildtool_depend>
 
   <depend>rcutils</depend>
   <depend>rosidl_runtime_c</depend>
