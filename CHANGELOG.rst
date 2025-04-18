@@ -2,6 +2,12 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.1 (2025-04-18)
+------------------
+* Switch to ament_cmake_ros_core package (`#15 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/15>`_)
+* Bump minimum CMake version to 3.20 (`#14 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/14>`_)
+* Contributors: Michael Carroll, mosfet80
+
 0.3.0 (2024-11-20)
 ------------------
 * Drop support for long double/float128. (`#12 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/12>`_)
