@@ -2,6 +2,9 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.4.0 (2025-04-24)
+------------------
+
 0.3.1 (2025-04-18)
 ------------------
 * Switch to ament_cmake_ros_core package (`#15 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/15>`_)
