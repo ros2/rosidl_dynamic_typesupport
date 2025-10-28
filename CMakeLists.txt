@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
 project(rosidl_dynamic_typesupport)
-set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
 # COMPILER SETTINGS ================================================================================
@@ -17,8 +16,6 @@ endif()
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
-
-set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
 # DEPS =============================================================================================
