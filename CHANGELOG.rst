@@ -2,6 +2,13 @@
 Changelog for package rosidl_dynamic_typesupport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.4.1 (2026-04-14)
+------------------
+
+* Don't automatically enable verbose makefiles (`#17 <https://github.com/ros2/rosidl_dynamic_typesupport/issues/17>`_)
+
+* Contributors: Chris Lalancette
+
 0.4.0 (2025-04-24)
 ------------------
 
