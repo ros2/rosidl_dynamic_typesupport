@@ -3,16 +3,6 @@ project(rosidl_dynamic_typesupport)
 
 
 # COMPILER SETTINGS ================================================================================
-# Default to C11
-if(NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 11)
-endif()
-
-# Default to C++17
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-endif()
-
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -43,9 +33,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
 )
-target_link_libraries(${PROJECT_NAME} PUBLIC
-  rcutils::rcutils
-  rosidl_runtime_c::rosidl_runtime_c
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE
+    ament_cmake_ros_core::ament_ros_defaults
+  PUBLIC
+    rcutils::rcutils
+    rosidl_runtime_c::rosidl_runtime_c
 )
 
 
