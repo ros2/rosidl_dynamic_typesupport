@@ -40,10 +40,13 @@ extern "C" {
 #endif
 
 #if defined(__ROSIDL_DYNAMIC_TYPESUPPORT__UCHAR_H__NEEDS_CHAR16_T_DECL)
-#  undef __ROSIDL_DYNAMIC_TYPESUPPORT__UCHAR_H__NEEDS_CHAR16_T_DECL
-#  include <stdint.h>
+#undef __ROSIDL_DYNAMIC_TYPESUPPORT__UCHAR_H__NEEDS_CHAR16_T_DECL
+#include <stdint.h>
+#ifndef __cplusplus
 typedef uint_least16_t char16_t;
 #endif
+#endif
+
 
 
 #ifdef __cplusplus

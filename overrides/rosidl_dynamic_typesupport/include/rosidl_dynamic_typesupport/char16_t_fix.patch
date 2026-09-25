@@ -1,0 +1,12 @@
+--- a/rosidl_dynamic_typesupport/include/rosidl_dynamic_typesupport/uchar.h
++++ b/rosidl_dynamic_typesupport/include/rosidl_dynamic_typesupport/uchar.h
+@@ -42,7 +42,9 @@
+ #    else
+ // Otherwise assume that char16_t isn't defined anywhere, and define it ourselves as uint_least16_t.
+ #      define __ROSIDL_DYNAMIC_TYPESUPPORT__UCHAR_H__NEEDS_CHAR16_T_DECL
++#      if !defined(__CHAR16_TYPE__)
+ typedef uint_least16_t char16_t;
++#      endif
+ #    endif
+ #  else
+ #    define __ROSIDL_DYNAMIC_TYPESUPPORT__UCHAR_H__NEEDS_CHAR16_T_DECL
