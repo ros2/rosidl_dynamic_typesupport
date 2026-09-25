@@ -1318,6 +1318,37 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
 
 
   // DYNAMIC DATA NESTED
+
+  rcutils_ret_t (* dynamic_data_get_nested_data)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
+    const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    rosidl_dynamic_typesupport_member_id_t id,
+    rcutils_allocator_t * allocator,
+    rosidl_dynamic_typesupport_dynamic_data_impl_t * value);  // OUT (copies)
+
+  rcutils_ret_t (* dynamic_data_set_nested_data)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
+    rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    rosidl_dynamic_typesupport_member_id_t id,
+    rosidl_dynamic_typesupport_dynamic_data_impl_t * value);
+
+  // This deep copies the passed data
+  rcutils_ret_t (* dynamic_data_insert_nested_data_copy)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
+    rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    const rosidl_dynamic_typesupport_dynamic_data_impl_t * value,
+    rosidl_dynamic_typesupport_member_id_t * out_id);  // OUT
+
+  rcutils_ret_t (* dynamic_data_insert_nested_data)(
+    rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
+    rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
+    rosidl_dynamic_typesupport_dynamic_data_impl_t * value,
+    rosidl_dynamic_typesupport_member_id_t * out_id);  // OUT
+
+  /**
+   * \deprecated `dynamic_data_get_complex_value` is deprecated in favor of
+   *   `dynamic_data_get_nested_data`
+   */
   rcutils_ret_t (* dynamic_data_get_complex_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
@@ -1325,19 +1356,30 @@ struct rosidl_dynamic_typesupport_serialization_support_interface_s
     rcutils_allocator_t * allocator,
     rosidl_dynamic_typesupport_dynamic_data_impl_t * value);  // OUT (copies)
 
+  /**
+   * \deprecated `dynamic_data_set_complex_value` is deprecated in favor of
+   *   `dynamic_data_set_nested_data`
+   */
   rcutils_ret_t (* dynamic_data_set_complex_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     rosidl_dynamic_typesupport_member_id_t id,
     rosidl_dynamic_typesupport_dynamic_data_impl_t * value);
 
-
+  /**
+   * \deprecated `dynamic_data_insert_complex_value_copy` is deprecated in favor of
+   *   `dynamic_data_insert_nested_data_copy`
+   */
   rcutils_ret_t (* dynamic_data_insert_complex_value_copy)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,
     const rosidl_dynamic_typesupport_dynamic_data_impl_t * value,
     rosidl_dynamic_typesupport_member_id_t * out_id);  // OUT
 
+  /**
+   * \deprecated `dynamic_data_insert_complex_value` is deprecated in favor of
+   *   `dynamic_data_insert_nested_data`
+   */
   rcutils_ret_t (* dynamic_data_insert_complex_value)(
     rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support,
     rosidl_dynamic_typesupport_dynamic_data_impl_t * dynamic_data,

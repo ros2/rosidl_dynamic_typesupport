@@ -843,7 +843,7 @@ rosidl_dynamic_typesupport_dynamic_data_insert_bounded_wstring_value(
 
 // DYNAMIC DATA NESTED =============================================================================
 rcutils_ret_t
-rosidl_dynamic_typesupport_dynamic_data_get_complex_value(
+rosidl_dynamic_typesupport_dynamic_data_get_nested_data(
   const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
   rosidl_dynamic_typesupport_member_id_t id,
   rcutils_allocator_t * allocator,
@@ -867,11 +867,63 @@ rosidl_dynamic_typesupport_dynamic_data_get_complex_value(
   value->allocator = *allocator;
 
   ROSIDL_DYNAMIC_TYPESUPPORT_CHECK_RET_FOR_NOT_OK_WITH_CLEANUP(
-    (dynamic_data->serialization_support->methods.dynamic_data_get_complex_value)(
+    (dynamic_data->serialization_support->methods.dynamic_data_get_nested_data)(
       &dynamic_data->serialization_support->impl, &dynamic_data->impl, id, allocator, &value->impl),
-    rosidl_dynamic_typesupport_dynamic_data_fini(value) // Cleanup
+    rosidl_dynamic_typesupport_dynamic_data_fini(value) // Cleanup.
   );
   return RCUTILS_RET_OK;
+}
+
+
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_set_nested_data(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id,
+  rosidl_dynamic_typesupport_dynamic_data_t * value)
+{
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->methods.dynamic_data_set_nested_data)(
+    &dynamic_data->serialization_support->impl, &dynamic_data->impl, id, &value->impl);
+}
+
+
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_insert_nested_data_copy(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  const rosidl_dynamic_typesupport_dynamic_data_t * value,
+  rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->methods.dynamic_data_insert_nested_data_copy)(
+    &dynamic_data->serialization_support->impl, &dynamic_data->impl, &value->impl, out_id);
+}
+
+
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_insert_nested_data(
+  rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_dynamic_data_t * value,
+  rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
+  return (dynamic_data->serialization_support->methods.dynamic_data_insert_nested_data)(
+    &dynamic_data->serialization_support->impl, &dynamic_data->impl, &value->impl, out_id);
+}
+
+
+rcutils_ret_t
+rosidl_dynamic_typesupport_dynamic_data_get_complex_value(
+  const rosidl_dynamic_typesupport_dynamic_data_t * dynamic_data,
+  rosidl_dynamic_typesupport_member_id_t id,
+  rcutils_allocator_t * allocator,
+  rosidl_dynamic_typesupport_dynamic_data_t * value)
+{
+  return rosidl_dynamic_typesupport_dynamic_data_get_nested_data(dynamic_data, id, allocator, value);
 }
 
 
@@ -881,10 +933,7 @@ rosidl_dynamic_typesupport_dynamic_data_set_complex_value(
   rosidl_dynamic_typesupport_member_id_t id,
   rosidl_dynamic_typesupport_dynamic_data_t * value)
 {
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_data->serialization_support->methods.dynamic_data_set_complex_value)(
-    &dynamic_data->serialization_support->impl, &dynamic_data->impl, id, &value->impl);
+  return rosidl_dynamic_typesupport_dynamic_data_set_nested_data(dynamic_data, id, value);
 }
 
 
@@ -894,11 +943,8 @@ rosidl_dynamic_typesupport_dynamic_data_insert_complex_value_copy(
   const rosidl_dynamic_typesupport_dynamic_data_t * value,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_data->serialization_support->methods.dynamic_data_insert_complex_value_copy)(
-    &dynamic_data->serialization_support->impl, &dynamic_data->impl, &value->impl, out_id);
+  return rosidl_dynamic_typesupport_dynamic_data_insert_nested_data_copy(
+    dynamic_data, value, out_id);
 }
 
 
@@ -908,9 +954,5 @@ rosidl_dynamic_typesupport_dynamic_data_insert_complex_value(
   rosidl_dynamic_typesupport_dynamic_data_t * value,
   rosidl_dynamic_typesupport_member_id_t * out_id)
 {
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(dynamic_data, RCUTILS_RET_INVALID_ARGUMENT);
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(value, RCUTILS_RET_INVALID_ARGUMENT);
-  RCUTILS_CHECK_ARGUMENT_FOR_NULL(out_id, RCUTILS_RET_INVALID_ARGUMENT);
-  return (dynamic_data->serialization_support->methods.dynamic_data_insert_complex_value)(
-    &dynamic_data->serialization_support->impl, &dynamic_data->impl, &value->impl, out_id);
+  return rosidl_dynamic_typesupport_dynamic_data_insert_nested_data(dynamic_data, value, out_id);
 }
